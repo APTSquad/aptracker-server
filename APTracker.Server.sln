@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APTracker.Server.WebApi", "APTracker.Server.WebApi\APTracker.Server.WebApi.csproj", "{DEDC42A4-01F6-4D75-8813-290AA863BBFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Identity.Web", "Microsoft.Identity.Web\Microsoft.Identity.Web.csproj", "{5DACD152-D6B6-4B50-8F3A-88B3F81643B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEDC42A4-01F6-4D75-8813-290AA863BBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEDC42A4-01F6-4D75-8813-290AA863BBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEDC42A4-01F6-4D75-8813-290AA863BBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEDC42A4-01F6-4D75-8813-290AA863BBFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DACD152-D6B6-4B50-8F3A-88B3F81643B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DACD152-D6B6-4B50-8F3A-88B3F81643B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DACD152-D6B6-4B50-8F3A-88B3F81643B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DACD152-D6B6-4B50-8F3A-88B3F81643B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

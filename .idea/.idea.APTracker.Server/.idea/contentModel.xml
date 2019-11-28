@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_APTracker.Server.1505793934.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="APTracker.Server.sln" t="IncludeFlat" />
+      <e p="APTracker.Server.WebApi" t="IncludeRecursive">
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="APTracker.Server.WebApi.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="TodosController.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="APTracker.Server.WebApi.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+      </e>
+      <e p="LICENSE" t="Include" />
+      <e p="Microsoft.Identity.Web" t="IncludeRecursive">
+        <e p="AccountExtensions.cs" t="Include" />
+        <e p="Architecture.dgml" t="Include" />
+        <e p="AuthorizeForScopesAttribute.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ClaimConstants.cs" t="Include" />
+        <e p="ClaimsPrincipalExtensions.cs" t="Include" />
+        <e p="ClaimsPrincipalFactory.cs" t="Include" />
+        <e p="Diagrams.cd" t="Include" />
+        <e p="Extensions.cs" t="Include" />
+        <e p="HttpContextExtensions.cs" t="Include" />
+        <e p="InstanceDiscovery" t="Include">
+          <e p="IssuerConfigurationRetriever.cs" t="Include" />
+          <e p="IssuerMetadata.cs" t="Include" />
+          <e p="Metadata.cs" t="Include" />
+        </e>
+        <e p="InternalsVisibleTo.cs" t="Include" />
+        <e p="ITokenAcquisition.cs" t="Include" />
+        <e p="Microsoft.Identity.Web.csproj" t="IncludeRecursive" />
+        <e p="Microsoft.Identity.Web.ruleset" t="Include" />
+        <e p="NuGet.Config" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="Microsoft.Identity.Web.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="OidcConstants.cs" t="Include" />
+        <e p="README.md" t="Include" />
+        <e p="Resource" t="Include">
+          <e p="AadIssuerValidator.cs" t="Include" />
+          <e p="JwtBearerMiddlewareDiagnostics.cs" t="Include" />
+          <e p="OpenIdConnectMiddlewareDiagnostics.cs" t="Include" />
+          <e p="ScopesRequiredHttpContextExtensions.cs" t="Include" />
+        </e>
+        <e p="ServiceCollectionExtensions.cs" t="Include" />
+        <e p="TokenAcquisition.cs" t="Include" />
+        <e p="TokenCacheProviders" t="Include">
+          <e p="Distributed" t="Include">
+            <e p="DistributedTokenCacheAdapterExtension.cs" t="Include" />
+            <e p="MsalDistributedTokenCacheAdapter.cs" t="Include" />
+          </e>
+          <e p="IMsalTokenCacheProvider .cs" t="Include" />
+          <e p="InMemory" t="Include">
+            <e p="InMemoryTokenCacheProviderExtension.cs" t="Include" />
+            <e p="MsalMemoryTokenCacheOptions.cs" t="Include" />
+            <e p="MsalMemoryTokenCacheProvider.cs" t="Include" />
+          </e>
+          <e p="MsalAbstractTokenCacheProvider.cs" t="Include" />
+          <e p="Session" t="Include">
+            <e p="MsalSessionTokenCacheProvider.cs" t="Include" />
+            <e p="SessionTokenCacheProviderExtension.cs" t="Include" />
+          </e>
+          <e p="TokenCacheSerializers.cd" t="Include" />
+        </e>
+        <e p="WebApiServiceCollectionExtensions.cs" t="Include" />
+        <e p="WebAppServiceCollectionExtensions.cs" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
