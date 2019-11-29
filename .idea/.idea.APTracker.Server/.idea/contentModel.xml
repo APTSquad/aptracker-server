@@ -12,13 +12,31 @@
         <e p="APTracker.Server.WebApi.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
+          <e p="IdentityController.cs" t="Include" />
           <e p="TodosController.cs" t="Include" />
+          <e p="UsersController.cs" t="Include" />
+        </e>
+        <e p="Migrations" t="Include">
+          <e p="20191129185015_Init.cs" t="Include" />
+          <e p="20191129185015_Init.Designer.cs" t="Include" />
+          <e p="20191129192221_M1.cs" t="Include" />
+          <e p="20191129192221_M1.Designer.cs" t="Include" />
+          <e p="20191129192317_M2.cs" t="Include" />
+          <e p="20191129192317_M2.Designer.cs" t="Include" />
+          <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.0" t="Include">
               <e p="APTracker.Server.WebApi.AssemblyInfo.cs" t="Include" />
             </e>
+          </e>
+        </e>
+        <e p="Persistence" t="Include">
+          <e p="AppDbContext.cs" t="Include" />
+          <e p="Entities" t="Include">
+            <e p="Role.cs" t="Include" />
+            <e p="User.cs" t="Include" />
           </e>
         </e>
         <e p="Program.cs" t="Include" />

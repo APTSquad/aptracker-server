@@ -1,5 +1,7 @@
+using APTracker.Server.WebApi.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +26,11 @@ namespace APTracker.Server.WebApi
                 .AddProtectedWebApi(Configuration)
                 .AddProtectedApiCallsWebApis(Configuration, new[] {"user.read", "offline_access"})
                 .AddInMemoryTokenCaches();
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opts =>
+                {
+                    opts.UseNpgsql(Configuration.GetConnectionString("MainConnection"));
+                });
 
             services.AddCors(ops =>
             {
@@ -53,6 +60,12 @@ namespace APTracker.Server.WebApi
 
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }

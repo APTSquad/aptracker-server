@@ -5,7 +5,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\APTracker.Server.Persistence\APTracker.Server.Persistence.csproj" />
       <ProjectReference Include="..\Microsoft.Identity.Web\Microsoft.Identity.Web.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.1" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
     </ItemGroup>
 
 </Project>
