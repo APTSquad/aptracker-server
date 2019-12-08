@@ -1,4 +1,5 @@
 using APTracker.Server.WebApi.Persistence;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,15 +29,16 @@ namespace APTracker.Server.WebApi
                 .AddInMemoryTokenCaches();
 
             services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opts =>
-                {
-                    opts.UseNpgsql(Configuration.GetConnectionString("MainConnection"));
-                });
+            {
+                opts.UseNpgsql(Configuration.GetConnectionString("MainConnection"));
+            });
 
             services.AddCors(ops =>
             {
                 ops.AddDefaultPolicy(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +62,8 @@ namespace APTracker.Server.WebApi
 
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
+
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();

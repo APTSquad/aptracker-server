@@ -7,8 +7,8 @@ namespace APTracker.Server.WebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<double>(
-                name: "Rate",
-                table: "Users",
+                "Rate",
+                "Users",
                 nullable: false,
                 defaultValue: 0.0);
         }
@@ -16,8 +16,8 @@ namespace APTracker.Server.WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Rate",
-                table: "Users");
+                "Rate",
+                "Users");
         }
     }
 }

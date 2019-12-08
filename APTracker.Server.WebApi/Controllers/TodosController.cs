@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
 
 namespace APTracker.Server.WebApi.Controllers
@@ -33,8 +32,7 @@ namespace APTracker.Server.WebApi.Controllers
         ///     The Web API will only accept tokens 1) for users, and
         ///     2) having the access_as_user scope for this API
         /// </summary>
-        private static readonly string[] ScopeRequiredByApi = {"access_as_user"};
-
+        //private static readonly string[] ScopeRequiredByApi = {"access_as_user"};
         private readonly ITokenAcquisition _tokenAcquisition;
 
         public TodosController(ITokenAcquisition tokenAcquisition)
@@ -46,7 +44,7 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpGet]
         public IEnumerable<TodoItem> Get()
         {
-            HttpContext.VerifyUserHasAnyAcceptedScope(ScopeRequiredByApi);
+            //HttpContext.VerifyUserHasAnyAcceptedScope(ScopeRequiredByApi);
             var owner = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return TodoStore.Where(t => t.Owner == owner).ToList();
         }
@@ -55,7 +53,7 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpPost]
         public async void Post([FromBody] TodoItem todo)
         {
-            HttpContext.VerifyUserHasAnyAcceptedScope(ScopeRequiredByApi);
+            //HttpContext.VerifyUserHasAnyAcceptedScope(ScopeRequiredByApi);
             var owner = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             string ownerName;
             // This is a synchronous call, so that the clients know, when they call Get, that the 

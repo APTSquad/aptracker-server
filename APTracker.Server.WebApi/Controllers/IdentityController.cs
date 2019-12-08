@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
@@ -24,12 +22,12 @@ namespace APTracker.Server.WebApi.Controllers
         {
             return User.FindFirst("preferred_username")?.Value;
         }
-        
+
         private string GetUserName()
         {
             return User.FindFirst("name")?.Value;
         }
-        
+
 
         // GET
         [HttpGet("me")]
@@ -41,18 +39,14 @@ namespace APTracker.Server.WebApi.Controllers
 
             if (foundUser != null)
             {
-                if (name != foundUser.Name)
-                {
-                    foundUser.Name = name;
-                }
+                if (name != foundUser.Name) foundUser.Name = name;
                 return Ok(foundUser);
             }
-            else
-            {
-                var userEntityEntry = await _context.Users.AddAsync(new User {Email = email, Role = Role.Developer, Name = name});
-                await _context.SaveChangesAsync();
-                return Ok(userEntityEntry.Entity);
-            }
+
+            var userEntityEntry =
+                await _context.Users.AddAsync(new User {Email = email, Role = Role.Developer, Name = name});
+            await _context.SaveChangesAsync();
+            return Ok(userEntityEntry.Entity);
         }
     }
 }
