@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\APTracker.Server.Persistence\APTracker.Server.Persistence.csproj" />
       <ProjectReference Include="..\Microsoft.Identity.Web\Microsoft.Identity.Web.csproj" />
     </ItemGroup>
 
