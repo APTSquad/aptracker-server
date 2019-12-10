@@ -1,5 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Persistence;
+using APTracker.Server.WebApi.ViewModels;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +18,26 @@ namespace APTracker.Server.WebApi.Controllers
             _context = context;
         }
 
-        // GET
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _context.Users.ToArrayAsync());
+        }
+        
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UserPutViewModel resource)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == resource.Id);
+            if (user != null)
+            {
+                user.Name = resource.Name;
+                user.Rate = resource.Rate;
+                var entry = _context.Update(user);
+                await _context.SaveChangesAsync();
+                return Ok(entry.Entity);
+            }
+
+            return NotFound();
         }
     }
 }
