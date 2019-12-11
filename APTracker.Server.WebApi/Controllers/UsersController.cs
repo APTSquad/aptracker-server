@@ -21,7 +21,7 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _context.Users.ToArrayAsync());
+            return Ok(_context.Users.OrderBy(x => x.Id));
         }
         
         [HttpPut]
