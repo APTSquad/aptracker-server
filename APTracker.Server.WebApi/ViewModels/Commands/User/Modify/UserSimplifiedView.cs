@@ -1,6 +1,6 @@
 namespace APTracker.Server.WebApi.Dto.Bag
 {
-    public class UserSimplifiedDto
+    public class UserSimplifiedView
     {
         /// <summary>
         ///     Идентификатор

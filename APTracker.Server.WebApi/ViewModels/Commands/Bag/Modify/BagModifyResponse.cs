@@ -1,6 +1,8 @@
-namespace APTracker.Server.WebApi.Dto.Bag
+using APTracker.Server.WebApi.Dto.Bag;
+
+namespace APTracker.Server.WebApi.ViewModels.Commands.Bag.Modify
 {
-    public class BagSimplifiedDto
+    public class BagModifyResponse
     {
         /// <summary>
         ///     Идентификатор
@@ -15,6 +17,6 @@ namespace APTracker.Server.WebApi.Dto.Bag
         /// <summary>
         ///     Ответственный
         /// </summary>
-        public UserSimplifiedDto Responsible { get; set; }
+        public UserSimplifiedView Responsible { get; set; }
     }
 }

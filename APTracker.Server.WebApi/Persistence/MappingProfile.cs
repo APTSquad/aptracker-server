@@ -1,5 +1,8 @@
 using APTracker.Server.WebApi.Dto.Bag;
 using APTracker.Server.WebApi.Persistence.Entities;
+using APTracker.Server.WebApi.ViewModels.Commands.Bag;
+using APTracker.Server.WebApi.ViewModels.Commands.Bag.Create;
+using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll;
 using AutoMapper;
 
 namespace APTracker.Server.WebApi.Persistence
@@ -8,11 +11,11 @@ namespace APTracker.Server.WebApi.Persistence
     {
         public MappingProfile()
         {
-            CreateMap<Bag, BagSimplifiedDto>();
-            CreateMap<User, UserSimplifiedDto>();
+            CreateMap<Bag, BagGetAllResponse>();
+            CreateMap<User, UserSimplifiedView>();
 
 
-            CreateMap<BagCreateDto, Bag>();
+            CreateMap<BagCreateRequest, Bag>();
             // .ForMember(x => x.ResponsibleId, opt => opt.MapFrom(dto => dto.ResponsibleId));
         }
     }

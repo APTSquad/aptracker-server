@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using APTracker.Server.WebApi.Persistence.Entities;
 
-namespace APTracker.Server.WebApi.ViewModels
+namespace APTracker.Server.WebApi.ViewModels.Commands.User
 {
-    public class UserPutViewModel : IEntity
+    public class UserModifyCommand : IEntity
     {
         public string Name { get; set; }
         

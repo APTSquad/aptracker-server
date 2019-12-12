@@ -25,12 +25,12 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         /// <summary>
         ///     Ответственный
         /// </summary>
-        public User Responsible { get; set; }
+        public User? Responsible { get; set; }
 
         /// <summary>
         ///     Идентификатор ответственного
         /// </summary>
-        public long ResponsibleId { get; set; }
+        public long? ResponsibleId { get; set; } = null;
 
         /// <summary>
         ///     Идентификатор

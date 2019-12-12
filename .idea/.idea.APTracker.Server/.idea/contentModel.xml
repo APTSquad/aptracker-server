@@ -18,11 +18,7 @@
           <e p="UsersController.cs" t="Include" />
         </e>
         <e p="Dto" t="Include">
-          <e p="Bag" t="Include">
-            <e p="BagCreateDto.cs" t="Include" />
-            <e p="BagSimplifiedDto.cs" t="Include" />
-            <e p="UserSimplifiedDto.cs" t="Include" />
-          </e>
+          <e p="Bag" t="Include" />
         </e>
         <e p="Migrations" t="Include">
           <e p="20191129185015_Init.cs" t="Include" />
@@ -35,6 +31,10 @@
           <e p="20191206205317_M3.Designer.cs" t="Include" />
           <e p="20191206212602_M4.cs" t="Include" />
           <e p="20191206212602_M4.Designer.cs" t="Include" />
+          <e p="20191212123346_M5.cs" t="Include" />
+          <e p="20191212123346_M5.Designer.cs" t="Include" />
+          <e p="20191212123624_M6.cs" t="Include" />
+          <e p="20191212123624_M6.Designer.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
@@ -65,7 +65,27 @@
         </e>
         <e p="Startup.cs" t="Include" />
         <e p="ViewModels" t="Include">
-          <e p="UserPutViewModel.cs" t="Include" />
+          <e p="Commands" t="Include">
+            <e p="Bag" t="Include">
+              <e p="Create" t="Include">
+                <e p="BagCreateRequest.cs" t="Include" />
+                <e p="BagCreateResponse.cs" t="Include" />
+              </e>
+              <e p="GetAll" t="Include">
+                <e p="BagGetAllResponse.cs" t="Include" />
+              </e>
+              <e p="Modify" t="Include">
+                <e p="BagModifyRequest.cs" t="Include" />
+                <e p="BagModifyResponse.cs" t="Include" />
+              </e>
+            </e>
+            <e p="User" t="Include">
+              <e p="Modify" t="Include">
+                <e p="UserModifyCommand.cs" t="Include" />
+                <e p="UserSimplifiedView.cs" t="Include" />
+              </e>
+            </e>
+          </e>
         </e>
       </e>
       <e p="LICENSE" t="Include" />
