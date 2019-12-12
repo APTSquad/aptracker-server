@@ -1,11 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Persistence;
-using APTracker.Server.WebApi.Persistence.Entities;
-using APTracker.Server.WebApi.ViewModels;
 using APTracker.Server.WebApi.ViewModels.Commands.User;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

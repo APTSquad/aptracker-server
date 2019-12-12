@@ -7,21 +7,21 @@ namespace APTracker.Server.WebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Bags_Users_ResponsibleId",
-                table: "Bags");
+                "FK_Bags_Users_ResponsibleId",
+                "Bags");
 
             migrationBuilder.AlterColumn<long>(
-                name: "ResponsibleId",
-                table: "Bags",
+                "ResponsibleId",
+                "Bags",
                 nullable: true,
                 oldClrType: typeof(long),
                 oldType: "bigint");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Bags_Users_ResponsibleId",
-                table: "Bags",
-                column: "ResponsibleId",
-                principalTable: "Users",
+                "FK_Bags_Users_ResponsibleId",
+                "Bags",
+                "ResponsibleId",
+                "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -29,22 +29,22 @@ namespace APTracker.Server.WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Bags_Users_ResponsibleId",
-                table: "Bags");
+                "FK_Bags_Users_ResponsibleId",
+                "Bags");
 
             migrationBuilder.AlterColumn<long>(
-                name: "ResponsibleId",
-                table: "Bags",
-                type: "bigint",
+                "ResponsibleId",
+                "Bags",
+                "bigint",
                 nullable: false,
                 oldClrType: typeof(long),
                 oldNullable: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Bags_Users_ResponsibleId",
-                table: "Bags",
-                column: "ResponsibleId",
-                principalTable: "Users",
+                "FK_Bags_Users_ResponsibleId",
+                "Bags",
+                "ResponsibleId",
+                "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

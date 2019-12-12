@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
-using APTracker.Server.WebApi.Dto.Bag;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
-using APTracker.Server.WebApi.ViewModels.Commands.Bag;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.Create;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.Modify;
