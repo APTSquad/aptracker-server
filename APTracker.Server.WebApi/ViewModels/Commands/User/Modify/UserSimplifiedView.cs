@@ -1,4 +1,4 @@
-namespace APTracker.Server.WebApi.Dto.Bag
+namespace APTracker.Server.WebApi.ViewModels.Commands.User.Modify
 {
     public class UserSimplifiedView
     {

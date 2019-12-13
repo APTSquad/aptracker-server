@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_APTracker.Server.1505793934.00" t="ExcludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_APTracker.Server.1505793934.00" t="ExcludeRecursive" />
     <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="APTracker.Server.sln" t="IncludeFlat" />
@@ -13,12 +13,10 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
           <e p="BagsController.cs" t="Include" />
+          <e p="HierarchyController.cs" t="Include" />
           <e p="IdentityController.cs" t="Include" />
           <e p="TodosController.cs" t="Include" />
           <e p="UsersController.cs" t="Include" />
-        </e>
-        <e p="Dto" t="Include">
-          <e p="Bag" t="Include" />
         </e>
         <e p="Migrations" t="Include">
           <e p="20191129185015_Init.cs" t="Include" />
@@ -35,6 +33,8 @@
           <e p="20191212123346_M5.Designer.cs" t="Include" />
           <e p="20191212123624_M6.cs" t="Include" />
           <e p="20191212123624_M6.Designer.cs" t="Include" />
+          <e p="20191213075352_M7.cs" t="Include" />
+          <e p="20191213075352_M7.Designer.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
@@ -77,6 +77,15 @@
               <e p="Modify" t="Include">
                 <e p="BagModifyRequest.cs" t="Include" />
                 <e p="BagModifyResponse.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Hierarchy" t="Include">
+              <e p="GetHierarchyResponse.cs" t="Include" />
+              <e p="Views" t="Include">
+                <e p="ArticleView.cs" t="Include" />
+                <e p="BagView.cs" t="Include" />
+                <e p="ClientView.cs" t="Include" />
+                <e p="ProjectView.cs" t="Include" />
               </e>
             </e>
             <e p="User" t="Include">

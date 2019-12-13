@@ -1,4 +1,4 @@
-using APTracker.Server.WebApi.Dto.Bag;
+using APTracker.Server.WebApi.ViewModels.Commands.User.Modify;
 
 namespace APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll
 {

@@ -1,7 +1,8 @@
-using APTracker.Server.WebApi.Dto.Bag;
 using APTracker.Server.WebApi.Persistence.Entities;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.Create;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll;
+using APTracker.Server.WebApi.ViewModels.Commands.Hierarchy.Views;
+using APTracker.Server.WebApi.ViewModels.Commands.User.Modify;
 using AutoMapper;
 
 namespace APTracker.Server.WebApi.Persistence
@@ -15,6 +16,10 @@ namespace APTracker.Server.WebApi.Persistence
 
 
             CreateMap<BagCreateRequest, Bag>();
+            CreateMap<Client, ClientView>();
+            CreateMap<ConsumptionArticle, ArticleView>();
+            CreateMap<Project, ProjectView>();
+            CreateMap<Bag, BagView>();
             // .ForMember(x => x.ResponsibleId, opt => opt.MapFrom(dto => dto.ResponsibleId));
         }
     }

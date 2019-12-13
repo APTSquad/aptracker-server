@@ -1,6 +1,6 @@
 using APTracker.Server.WebApi.Persistence.Entities;
 
-namespace APTracker.Server.WebApi.ViewModels.Commands.User
+namespace APTracker.Server.WebApi.ViewModels.Commands.User.Modify
 {
     public class UserModifyCommand : IEntity
     {

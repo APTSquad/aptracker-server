@@ -1,4 +1,6 @@
-﻿namespace APTracker.Server.WebApi.Persistence.Entities
+﻿using System.Collections.Generic;
+
+namespace APTracker.Server.WebApi.Persistence.Entities
 {
     /// <summary>
     ///     Проект
@@ -25,5 +27,7 @@
         ///     Идентификатор
         /// </summary>
         public long Id { get; set; }
+        
+        public ICollection<ConsumptionArticle> Articles { get; set; }
     }
 }
