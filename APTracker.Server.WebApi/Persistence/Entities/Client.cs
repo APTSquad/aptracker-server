@@ -23,6 +23,11 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         public Bag Bag { get; set; }
 
         /// <summary>
+        ///     Идентификатор портфеля
+        /// </summary>
+        public long BagId { get; set; }
+
+        /// <summary>
         ///     Идентификатор
         /// </summary>
         public long Id { get; set; }

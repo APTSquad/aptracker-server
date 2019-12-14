@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Persistence;
-using APTracker.Server.WebApi.ViewModels.Commands.User;
 using APTracker.Server.WebApi.ViewModels.Commands.User.Modify;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

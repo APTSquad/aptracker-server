@@ -13,8 +13,10 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
           <e p="BagsController.cs" t="Include" />
+          <e p="ClientsController.cs" t="Include" />
           <e p="HierarchyController.cs" t="Include" />
           <e p="IdentityController.cs" t="Include" />
+          <e p="ProjectsController.cs" t="Include" />
           <e p="TodosController.cs" t="Include" />
           <e p="UsersController.cs" t="Include" />
         </e>
@@ -79,6 +81,15 @@
                 <e p="BagModifyResponse.cs" t="Include" />
               </e>
             </e>
+            <e p="Client" t="Include">
+              <e p="Create" t="Include">
+                <e p="ClientCreateCommand.cs" t="Include" />
+                <e p="ClientCreateResponse.cs" t="Include" />
+              </e>
+              <e p="Modify" t="Include">
+                <e p="ClientModifyCommand.cs" t="Include" />
+              </e>
+            </e>
             <e p="Hierarchy" t="Include">
               <e p="GetHierarchyResponse.cs" t="Include" />
               <e p="Views" t="Include">
@@ -86,6 +97,15 @@
                 <e p="BagView.cs" t="Include" />
                 <e p="ClientView.cs" t="Include" />
                 <e p="ProjectView.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Project" t="Include">
+              <e p="Create" t="Include">
+                <e p="ProjectCreateCommand.cs" t="Include" />
+                <e p="ProjectCreateResponse.cs" t="Include" />
+              </e>
+              <e p="Modify" t="Include">
+                <e p="ProjectModifyCommand.cs" t="Include" />
               </e>
             </e>
             <e p="User" t="Include">

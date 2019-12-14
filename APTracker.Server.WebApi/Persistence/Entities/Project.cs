@@ -17,17 +17,19 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         /// </summary>
         public Client Client { get; set; }
 
+        public long ClientId { get; set; }
+
         /// <summary>
         ///     Портфель проекта
         ///     Необязательный
         /// </summary>
         public Bag? Bag { get; set; }
 
+        public ICollection<ConsumptionArticle> Articles { get; set; }
+
         /// <summary>
         ///     Идентификатор
         /// </summary>
         public long Id { get; set; }
-        
-        public ICollection<ConsumptionArticle> Articles { get; set; }
     }
 }

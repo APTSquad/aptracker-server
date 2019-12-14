@@ -1,9 +1,8 @@
 using APTracker.Server.WebApi.Persistence.Entities;
 
-namespace APTracker.Server.WebApi.ViewModels.Commands.Hierarchy.Views
+namespace APTracker.Server.WebApi.ViewModels.Commands.Project.Modify
 {
-    public class BagView : IEntity
-
+    public class ProjectModifyCommand : IEntity
     {
         public string Name { get; set; }
         public long Id { get; set; }
