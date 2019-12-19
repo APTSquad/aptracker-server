@@ -46,7 +46,7 @@ namespace APTracker.Server.WebApi
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseCors(ops =>
