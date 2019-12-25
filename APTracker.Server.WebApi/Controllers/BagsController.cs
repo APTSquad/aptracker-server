@@ -27,12 +27,16 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider));
+            return Ok(await _context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider).ToListAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
+            if ((await _context.Bags.CountAsync(x => x.Id == id)) == 0)
+            {
+                return NotFound();
+            }
             return Ok(await _context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == id));
         }

@@ -4,6 +4,7 @@ using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll;
 using APTracker.Server.WebApi.ViewModels.Commands.Client.Create;
 using APTracker.Server.WebApi.ViewModels.Commands.Hierarchy.Views;
 using APTracker.Server.WebApi.ViewModels.Commands.Project.Create;
+using APTracker.Server.WebApi.ViewModels.Commands.Project.GetAll;
 using APTracker.Server.WebApi.ViewModels.Commands.User.Modify;
 using AutoMapper;
 
@@ -14,6 +15,7 @@ namespace APTracker.Server.WebApi.Persistence
         public MappingProfile()
         {
             CreateMap<Bag, BagGetAllResponse>();
+            CreateMap<Project, ProjectGetAllResponse>();
             CreateMap<User, UserSimplifiedView>();
 
 

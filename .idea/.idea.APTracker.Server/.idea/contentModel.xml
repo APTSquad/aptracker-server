@@ -104,6 +104,9 @@
                 <e p="ProjectCreateCommand.cs" t="Include" />
                 <e p="ProjectCreateResponse.cs" t="Include" />
               </e>
+              <e p="GetAll" t="Include">
+                <e p="ProjectGetAllResponse.cs" t="Include" />
+              </e>
               <e p="Modify" t="Include">
                 <e p="ProjectModifyCommand.cs" t="Include" />
               </e>
