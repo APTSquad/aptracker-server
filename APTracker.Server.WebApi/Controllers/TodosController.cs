@@ -81,7 +81,7 @@ namespace APTracker.Server.WebApi.Controllers
             }
         }
 
-        public async Task<string> CallGraphApiOnBehalfOfUser()
+        private async Task<string> CallGraphApiOnBehalfOfUser()
         {
             string[] scopes = {"user.read"};
 

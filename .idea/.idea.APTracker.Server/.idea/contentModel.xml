@@ -115,6 +115,7 @@
               </e>
             </e>
           </e>
+          <e p="SetBagCommand.cs" t="Include" />
         </e>
       </e>
       <e p="LICENSE" t="Include" />
