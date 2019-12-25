@@ -1,14 +1,13 @@
+using APTracker.Server.WebApi.Commands.Articles.GetAll;
+using APTracker.Server.WebApi.Commands.Bag.Create;
+using APTracker.Server.WebApi.Commands.Bag.GetAll;
+using APTracker.Server.WebApi.Commands.Bag.GetById;
+using APTracker.Server.WebApi.Commands.Client.Create;
+using APTracker.Server.WebApi.Commands.Hierarchy.Views;
+using APTracker.Server.WebApi.Commands.Project.Create;
+using APTracker.Server.WebApi.Commands.Project.GetAll;
+using APTracker.Server.WebApi.Commands.User;
 using APTracker.Server.WebApi.Persistence.Entities;
-using APTracker.Server.WebApi.ViewModels.Commands.Articles.GetAll;
-using APTracker.Server.WebApi.ViewModels.Commands.Bag.Create;
-using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll;
-using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetById;
-using APTracker.Server.WebApi.ViewModels.Commands.Client.Create;
-using APTracker.Server.WebApi.ViewModels.Commands.Hierarchy.Views;
-using APTracker.Server.WebApi.ViewModels.Commands.Project.Create;
-using APTracker.Server.WebApi.ViewModels.Commands.Project.GetAll;
-using APTracker.Server.WebApi.ViewModels.Commands.User;
-using APTracker.Server.WebApi.ViewModels.Commands.User.Modify;
 using AutoMapper;
 
 namespace APTracker.Server.WebApi.Persistence
@@ -19,8 +18,8 @@ namespace APTracker.Server.WebApi.Persistence
         {
             CreateMap<Bag, BagGetAllResponse>();
             CreateMap<Bag, BagGetByIdResponse>();
-            
-            
+
+
             CreateMap<Project, ProjectGetAllResponse>();
             CreateMap<ConsumptionArticle, ArticleGetAllResponse>();
             CreateMap<User, UserSimplifiedView>();

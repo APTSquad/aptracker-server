@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
+using APTracker.Server.WebApi.Commands;
+using APTracker.Server.WebApi.Commands.Client.Create;
+using APTracker.Server.WebApi.Commands.Client.Modify;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
-using APTracker.Server.WebApi.ViewModels;
-using APTracker.Server.WebApi.ViewModels.Commands.Client.Create;
-using APTracker.Server.WebApi.ViewModels.Commands.Client.Modify;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;

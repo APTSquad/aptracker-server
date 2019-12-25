@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
+using APTracker.Server.WebApi.Commands.Hierarchy.Views;
 using APTracker.Server.WebApi.Persistence;
-using APTracker.Server.WebApi.ViewModels.Commands.Hierarchy.Views;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;

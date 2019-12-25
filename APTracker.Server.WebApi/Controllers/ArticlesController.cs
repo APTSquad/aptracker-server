@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
+using APTracker.Server.WebApi.Commands;
+using APTracker.Server.WebApi.Commands.Articles.GetAll;
+using APTracker.Server.WebApi.Commands.Articles.Modify;
 using APTracker.Server.WebApi.Persistence;
-using APTracker.Server.WebApi.ViewModels;
-using APTracker.Server.WebApi.ViewModels.Commands.Articles.GetAll;
-using APTracker.Server.WebApi.ViewModels.Commands.Articles.Modify;
-using APTracker.Server.WebApi.ViewModels.Commands.Project.Create;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,7 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync());
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -37,7 +36,7 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == id));
         }
-        
+
         [HttpPost("setBag")]
         public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
@@ -56,7 +55,7 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == article.Id));
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] ArticleModifyRequest request)
         {

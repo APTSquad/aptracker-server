@@ -25,7 +25,7 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         ///     Необязательный
         /// </summary>
         public Bag? Bag { get; set; }
-        
+
         public long? BagId { get; set; }
 
         /// <summary>

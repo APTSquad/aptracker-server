@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
+using APTracker.Server.WebApi.Commands;
+using APTracker.Server.WebApi.Commands.Project.Create;
+using APTracker.Server.WebApi.Commands.Project.GetAll;
+using APTracker.Server.WebApi.Commands.Project.Modify;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
-using APTracker.Server.WebApi.ViewModels;
-using APTracker.Server.WebApi.ViewModels.Commands.Project.Create;
-using APTracker.Server.WebApi.ViewModels.Commands.Project.GetAll;
-using APTracker.Server.WebApi.ViewModels.Commands.Project.Modify;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
