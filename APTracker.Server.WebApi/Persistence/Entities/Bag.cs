@@ -8,6 +8,11 @@ namespace APTracker.Server.WebApi.Persistence.Entities
     public class Bag : IEntity
     {
         /// <summary>
+        ///     Идентификатор
+        /// </summary>
+        public long Id { get; set; }
+        
+        /// <summary>
         ///     Название
         /// </summary>
         public string Name { get; set; }
@@ -21,6 +26,11 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         ///     Клиенты
         /// </summary>
         public ICollection<Client> Clients { get; set; }
+        
+        /// <summary>
+        ///     Статьи
+        /// </summary>
+        public ICollection<ConsumptionArticle> Articles { get; set; }
 
         /// <summary>
         ///     Ответственный
@@ -32,9 +42,5 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         /// </summary>
         public long? ResponsibleId { get; set; } = null;
 
-        /// <summary>
-        ///     Идентификатор
-        /// </summary>
-        public long Id { get; set; }
     }
 }

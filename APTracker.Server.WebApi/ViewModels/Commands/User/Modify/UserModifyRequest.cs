@@ -2,7 +2,7 @@ using APTracker.Server.WebApi.Persistence.Entities;
 
 namespace APTracker.Server.WebApi.ViewModels.Commands.User.Modify
 {
-    public class UserModifyCommand : IEntity
+    public class UserModifyRequest : IEntity
     {
         public string Name { get; set; }
 

@@ -1,4 +1,4 @@
-namespace APTracker.Server.WebApi.ViewModels.Commands.User.Modify
+namespace APTracker.Server.WebApi.ViewModels.Commands.User
 {
     public class UserSimplifiedView
     {

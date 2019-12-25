@@ -12,6 +12,7 @@
         <e p="APTracker.Server.WebApi.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
+          <e p="ArticlesController.cs" t="Include" />
           <e p="BagsController.cs" t="Include" />
           <e p="ClientsController.cs" t="Include" />
           <e p="HierarchyController.cs" t="Include" />
@@ -68,6 +69,14 @@
         <e p="Startup.cs" t="Include" />
         <e p="ViewModels" t="Include">
           <e p="Commands" t="Include">
+            <e p="Articles" t="Include">
+              <e p="GetAll" t="Include">
+                <e p="ArticleGetAllResponse.cs" t="Include" />
+              </e>
+              <e p="Modify" t="Include">
+                <e p="ArticleModifyRequest.cs" t="Include" />
+              </e>
+            </e>
             <e p="Bag" t="Include">
               <e p="Create" t="Include">
                 <e p="BagCreateRequest.cs" t="Include" />
@@ -76,6 +85,12 @@
               <e p="GetAll" t="Include">
                 <e p="BagGetAllResponse.cs" t="Include" />
               </e>
+              <e p="GetById" t="Include">
+                <e p="BagArticleView.cs" t="Include" />
+                <e p="BagClientView.cs" t="Include" />
+                <e p="BagGetByIdResponse.cs" t="Include" />
+                <e p="BagProjectView.cs" t="Include" />
+              </e>
               <e p="Modify" t="Include">
                 <e p="BagModifyRequest.cs" t="Include" />
                 <e p="BagModifyResponse.cs" t="Include" />
@@ -83,11 +98,11 @@
             </e>
             <e p="Client" t="Include">
               <e p="Create" t="Include">
-                <e p="ClientCreateCommand.cs" t="Include" />
+                <e p="ClientCreateRequest.cs" t="Include" />
                 <e p="ClientCreateResponse.cs" t="Include" />
               </e>
               <e p="Modify" t="Include">
-                <e p="ClientModifyCommand.cs" t="Include" />
+                <e p="ClientModifyRequest.cs" t="Include" />
               </e>
             </e>
             <e p="Hierarchy" t="Include">
@@ -101,24 +116,24 @@
             </e>
             <e p="Project" t="Include">
               <e p="Create" t="Include">
-                <e p="ProjectCreateCommand.cs" t="Include" />
+                <e p="ProjectCreateRequest.cs" t="Include" />
                 <e p="ProjectCreateResponse.cs" t="Include" />
               </e>
               <e p="GetAll" t="Include">
                 <e p="ProjectGetAllResponse.cs" t="Include" />
               </e>
               <e p="Modify" t="Include">
-                <e p="ProjectModifyCommand.cs" t="Include" />
+                <e p="ProjectModifyRequest.cs" t="Include" />
               </e>
             </e>
             <e p="User" t="Include">
               <e p="Modify" t="Include">
-                <e p="UserModifyCommand.cs" t="Include" />
-                <e p="UserSimplifiedView.cs" t="Include" />
+                <e p="UserModifyRequest.cs" t="Include" />
               </e>
+              <e p="UserSimplifiedView.cs" t="Include" />
             </e>
           </e>
-          <e p="SetBagCommand.cs" t="Include" />
+          <e p="SetBagRequest.cs" t="Include" />
         </e>
       </e>
       <e p="LICENSE" t="Include" />

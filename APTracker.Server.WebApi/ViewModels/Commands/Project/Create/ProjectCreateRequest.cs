@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace APTracker.Server.WebApi.ViewModels.Commands.Project.Create
 {
-    public class ProjectCreateCommand
+    public class ProjectCreateRequest
     {
         [Required] public string Name { get; set; }
 

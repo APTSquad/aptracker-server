@@ -38,13 +38,13 @@ namespace APTracker.Server.WebApi
             {
                 ops.AddDefaultPolicy(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
-            
+
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
-            
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APTracker API", Version = "v1" });                
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "APTracker API", Version = "v1"});
             });
         }
 
@@ -69,22 +69,16 @@ namespace APTracker.Server.WebApi
 
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
             app.UseSwagger();
- 
+
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "APTracker API V1");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "APTracker API V1"); });
 
-
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                context.Database.Migrate();
-            }
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            context.Database.Migrate();
         }
     }
 }

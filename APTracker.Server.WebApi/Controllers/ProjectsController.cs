@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using APTracker.Server.WebApi.ViewModels;
-using APTracker.Server.WebApi.ViewModels.Commands.Client.Create;
 using APTracker.Server.WebApi.ViewModels.Commands.Project.Create;
 using APTracker.Server.WebApi.ViewModels.Commands.Project.GetAll;
 using APTracker.Server.WebApi.ViewModels.Commands.Project.Modify;
@@ -24,30 +23,28 @@ namespace APTracker.Server.WebApi.Controllers
             _mapper = mapper;
             _context = context;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _context.Projects.ProjectTo<ProjectGetAllResponse>(_mapper.ConfigurationProvider).ToListAsync());
+            return Ok(await _context.Projects.ProjectTo<ProjectGetAllResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync());
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
-            if ((await _context.Projects.CountAsync(x => x.Id == id)) == 0)
-            {
-                return NotFound();
-            }
+            if (await _context.Projects.CountAsync(x => x.Id == id) == 0) return NotFound();
             return Ok(await _context.Projects.ProjectTo<ProjectGetAllResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProjectCreateCommand command)
+        public async Task<IActionResult> Create([FromBody] ProjectCreateRequest request)
         {
-            var client = _context.Clients.FirstOrDefaultAsync(b => b.Id == command.ClientId);
+            var client = _context.Clients.FirstOrDefaultAsync(b => b.Id == request.ClientId);
             if (client == null) return BadRequest();
-            var ent = await _context.Projects.AddAsync(_mapper.Map<Project>(command));
+            var ent = await _context.Projects.AddAsync(_mapper.Map<Project>(request));
             await _context.SaveChangesAsync();
 
             return Ok(await _context.Projects.ProjectTo<ProjectCreateResponse>(_mapper.ConfigurationProvider)
@@ -55,36 +52,32 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ProjectModifyCommand command)
+        public async Task<IActionResult> Put([FromBody] ProjectModifyRequest request)
         {
-            var foundProject = await _context.Projects.FirstOrDefaultAsync(c => c.Id == command.Id);
+            var foundProject = await _context.Projects.FirstOrDefaultAsync(c => c.Id == request.Id);
             if (foundProject == null) return NotFound();
 
-            foundProject.Name = command.Name;
+            foundProject.Name = request.Name;
 
             _context.Projects.Update(foundProject);
             await _context.SaveChangesAsync();
 
             return Ok(await _context.Projects.ProjectTo<ProjectCreateResponse>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(x => x.Id == command.Id));
+                .FirstOrDefaultAsync(x => x.Id == request.Id));
         }
-        
+
         [HttpPost("setBag")]
-        public async Task<IActionResult> SetBag([FromBody] SetBagCommand command)
+        public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
-            if (!command.BagId.HasValue)
-            {
-                return BadRequest("BagId is required");
-            }
-            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == command.BagId);
+            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
             if (bag == null) return BadRequest();
-            var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == command.Id);
+            var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (project == null)
                 return NotFound("Client wasn't found");
 
-            project.BagId = command.BagId.Value;
-            
+            project.BagId = request.BagId;
+
             _context.Projects.Update(project);
             await _context.SaveChangesAsync();
 

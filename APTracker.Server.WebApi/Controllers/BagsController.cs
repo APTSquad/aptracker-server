@@ -3,6 +3,7 @@ using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.Create;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetAll;
+using APTracker.Server.WebApi.ViewModels.Commands.Bag.GetById;
 using APTracker.Server.WebApi.ViewModels.Commands.Bag.Modify;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -33,11 +34,8 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
-            if ((await _context.Bags.CountAsync(x => x.Id == id)) == 0)
-            {
-                return NotFound();
-            }
-            return Ok(await _context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider)
+            if (await _context.Bags.CountAsync(x => x.Id == id) == 0) return NotFound();
+            return Ok(await _context.Bags.ProjectTo<BagGetByIdResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == id));
         }
 

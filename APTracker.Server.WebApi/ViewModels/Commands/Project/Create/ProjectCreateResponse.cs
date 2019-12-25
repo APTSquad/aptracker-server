@@ -6,8 +6,8 @@ namespace APTracker.Server.WebApi.ViewModels.Commands.Project.Create
     {
         public string Name { get; set; }
 
-        public long Id { get; set; }
-        
         public Persistence.Entities.Bag? Bag { get; set; }
+
+        public long Id { get; set; }
     }
 }

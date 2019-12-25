@@ -45,7 +45,7 @@ namespace APTracker.Server.WebApi.Controllers
         }*/
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] UserModifyCommand resource)
+        public async Task<IActionResult> Put([FromBody] UserModifyRequest resource)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == resource.Id);
             if (user != null)

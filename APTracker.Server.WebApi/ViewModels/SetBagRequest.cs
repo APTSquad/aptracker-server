@@ -2,9 +2,9 @@ using APTracker.Server.WebApi.Persistence.Entities;
 
 namespace APTracker.Server.WebApi.ViewModels
 {
-    public class SetBagCommand : IEntity
+    public class SetBagRequest : IEntity
     {
-        public long Id { get; set; }
         public long? BagId { get; set; }
+        public long Id { get; set; }
     }
 }

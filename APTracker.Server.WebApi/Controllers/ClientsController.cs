@@ -23,34 +23,39 @@ namespace APTracker.Server.WebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ClientCreateCommand command)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
         {
-            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == command.BagId);
+            if (await _context.Clients.CountAsync(x => x.Id == id) == 0) return NotFound();
+            return Ok(await _context.Clients.ProjectTo<ClientCreateResponse>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(x => x.Id == id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ClientCreateRequest request)
+        {
+            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
             if (bag == null) return BadRequest();
-            var ent = await _context.Clients.AddAsync(_mapper.Map<Client>(command));
+            var ent = await _context.Clients.AddAsync(_mapper.Map<Client>(request));
             await _context.SaveChangesAsync();
 
             return Ok(await _context.Clients.ProjectTo<ClientCreateResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == ent.Entity.Id));
         }
-        
+
         [HttpPost("setBag")]
-        public async Task<IActionResult> SetBag([FromBody] SetBagCommand command)
+        public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
-            if (!command.BagId.HasValue)
-            {
-                return BadRequest("BagId is required");
-            }
-            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == command.BagId);
+            if (!request.BagId.HasValue) return BadRequest("BagId is required");
+            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
             if (bag == null) return BadRequest();
-            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == command.Id);
+            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (client == null)
                 return NotFound("Client wasn't found");
 
-            client.BagId = command.BagId.Value;
-            
+            client.BagId = request.BagId.Value;
+
             _context.Clients.Update(client);
             await _context.SaveChangesAsync();
 
@@ -59,7 +64,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ClientModifyCommand client)
+        public async Task<IActionResult> Put([FromBody] ClientModifyRequest client)
         {
             var foundClient = await _context.Clients.FirstOrDefaultAsync(c => c.Id == client.Id);
             if (foundClient == null) return NotFound("Client wasn't found");
@@ -72,7 +77,7 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.Clients.ProjectTo<ClientCreateResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == client.Id));
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
