@@ -13,10 +13,12 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         /// </summary>
         public ICollection<ConsumptionReportItem> ReportItems { get; set; }
 
-        /// <summary>
-        ///     Дата отчета
-        /// </summary>
         public DateTime Date { get; set; }
+
+        public User User { get; set; }
+
+        public long UserId { get; set; }
+
 
         /// <summary>
         ///     Время сохранения отчета

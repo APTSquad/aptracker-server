@@ -16,6 +16,11 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         public ConsumptionArticle Article { get; set; }
 
         /// <summary>
+        ///     Статья
+        /// </summary>
+        public long ArticleId { get; set; }
+
+        /// <summary>
         ///     Идентификатор
         /// </summary>
         public long Id { get; set; }

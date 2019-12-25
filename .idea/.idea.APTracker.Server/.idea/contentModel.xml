@@ -69,6 +69,13 @@
               <e p="ProjectModifyRequest.cs" t="Include" />
             </e>
           </e>
+          <e p="Report" t="Include">
+            <e p="ReportArticleItem.cs" t="Include" />
+            <e p="ReportClientItem.cs" t="Include" />
+            <e p="ReportProjectItem.cs" t="Include" />
+            <e p="ReportTemplateRequest.cs" t="Include" />
+            <e p="ReportTemplateResponse.cs" t="Include" />
+          </e>
           <e p="SetBagRequest.cs" t="Include" />
           <e p="User" t="Include">
             <e p="Modify" t="Include">
@@ -84,6 +91,7 @@
           <e p="HierarchyController.cs" t="Include" />
           <e p="IdentityController.cs" t="Include" />
           <e p="ProjectsController.cs" t="Include" />
+          <e p="ReportCOntroller.cs" t="Include" />
           <e p="TodosController.cs" t="Include" />
           <e p="UsersController.cs" t="Include" />
         </e>
@@ -104,6 +112,12 @@
           <e p="20191212123624_M6.Designer.cs" t="Include" />
           <e p="20191213075352_M7.cs" t="Include" />
           <e p="20191213075352_M7.Designer.cs" t="Include" />
+          <e p="20191225195015_M8.cs" t="Include" />
+          <e p="20191225195015_M8.Designer.cs" t="Include" />
+          <e p="20191225195820_M9.cs" t="Include" />
+          <e p="20191225195820_M9.Designer.cs" t="Include" />
+          <e p="20191225212830_M10.cs" t="Include" />
+          <e p="20191225212830_M10.Designer.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">

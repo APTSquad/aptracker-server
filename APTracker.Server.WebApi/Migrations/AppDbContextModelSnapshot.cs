@@ -16,7 +16,7 @@ namespace APTracker.Server.WebApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("APTracker.Server.WebApi.Persistence.Entities.Bag", b =>
@@ -48,7 +48,7 @@ namespace APTracker.Server.WebApi.Migrations
                     .HasAnnotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                b.Property<long?>("BagId")
+                b.Property<long>("BagId")
                     .HasColumnType("bigint");
 
                 b.Property<string>("Name")
@@ -75,6 +75,9 @@ namespace APTracker.Server.WebApi.Migrations
                 b.Property<bool>("IsActive")
                     .HasColumnType("boolean");
 
+                b.Property<bool>("IsCommon")
+                    .HasColumnType("boolean");
+
                 b.Property<string>("Name")
                     .HasColumnType("text");
 
@@ -98,7 +101,7 @@ namespace APTracker.Server.WebApi.Migrations
                     .HasAnnotation("Npgsql:ValueGenerationStrategy",
                         NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                b.Property<long?>("ArticleId")
+                b.Property<long>("ArticleId")
                     .HasColumnType("bigint");
 
                 b.Property<long?>("DailyReportId")
@@ -130,7 +133,15 @@ namespace APTracker.Server.WebApi.Migrations
                 b.Property<DateTime>("Saved")
                     .HasColumnType("timestamp without time zone");
 
+                b.Property<long>("UserId")
+                    .HasColumnType("bigint");
+
                 b.HasKey("Id");
+
+                b.HasIndex("UserId");
+
+                b.HasIndex("Date", "UserId")
+                    .IsUnique();
 
                 b.ToTable("DailyReports");
             });
@@ -146,7 +157,7 @@ namespace APTracker.Server.WebApi.Migrations
                 b.Property<long?>("BagId")
                     .HasColumnType("bigint");
 
-                b.Property<long?>("ClientId")
+                b.Property<long>("ClientId")
                     .HasColumnType("bigint");
 
                 b.Property<string>("Name")
@@ -197,13 +208,15 @@ namespace APTracker.Server.WebApi.Migrations
             {
                 b.HasOne("APTracker.Server.WebApi.Persistence.Entities.Bag", "Bag")
                     .WithMany("Clients")
-                    .HasForeignKey("BagId");
+                    .HasForeignKey("BagId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("APTracker.Server.WebApi.Persistence.Entities.ConsumptionArticle", b =>
             {
                 b.HasOne("APTracker.Server.WebApi.Persistence.Entities.Bag", "Bag")
-                    .WithMany()
+                    .WithMany("Articles")
                     .HasForeignKey("BagId");
 
                 b.HasOne("APTracker.Server.WebApi.Persistence.Entities.Project", "Project")
@@ -215,11 +228,22 @@ namespace APTracker.Server.WebApi.Migrations
             {
                 b.HasOne("APTracker.Server.WebApi.Persistence.Entities.ConsumptionArticle", "Article")
                     .WithMany()
-                    .HasForeignKey("ArticleId");
+                    .HasForeignKey("ArticleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
                 b.HasOne("APTracker.Server.WebApi.Persistence.Entities.DailyReport", null)
                     .WithMany("ReportItems")
                     .HasForeignKey("DailyReportId");
+            });
+
+            modelBuilder.Entity("APTracker.Server.WebApi.Persistence.Entities.DailyReport", b =>
+            {
+                b.HasOne("APTracker.Server.WebApi.Persistence.Entities.User", "User")
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("APTracker.Server.WebApi.Persistence.Entities.Project", b =>
@@ -230,7 +254,9 @@ namespace APTracker.Server.WebApi.Migrations
 
                 b.HasOne("APTracker.Server.WebApi.Persistence.Entities.Client", "Client")
                     .WithMany("Projects")
-                    .HasForeignKey("ClientId");
+                    .HasForeignKey("ClientId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 #pragma warning restore 612, 618
         }

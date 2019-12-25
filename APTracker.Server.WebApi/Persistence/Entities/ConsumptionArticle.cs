@@ -11,6 +11,11 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         public bool IsActive { get; set; }
 
         /// <summary>
+        ///     Индикатор общности статьи
+        /// </summary>
+        public bool IsCommon { get; set; }
+
+        /// <summary>
         ///     Название
         /// </summary>
         public string Name { get; set; }
