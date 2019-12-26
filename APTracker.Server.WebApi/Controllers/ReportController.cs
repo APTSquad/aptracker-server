@@ -33,7 +33,12 @@ namespace APTracker.Server.WebApi.Controllers
             var date = req.Date.Date;
             var theLatestDayBefore = await _context.DailyReports
                 .Where(x => x.Date < date)
-                .OrderByDescending(x => x.Date).FirstOrDefaultAsync();
+                .OrderByDescending(x => x.Date)
+                .Include(x => x.ReportItems)
+                .ThenInclude(x => x.Article)
+                .ThenInclude(x => x.Project)
+                .ThenInclude(x => x.Client)
+                .FirstOrDefaultAsync();
 
             var data = new ReportTemplateResponse {CommonArticles = await GenerateDefaultTemplate()};
 
@@ -46,12 +51,15 @@ namespace APTracker.Server.WebApi.Controllers
 
             foreach (var elem in theLatestDayBefore.ReportItems.Select(x => x.Article))
             {
-                var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
-                var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
-                var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
-                client.IsChecked = true;
-                project.IsChecked = true;
-                article.IsChecked = true;
+                if (!elem.IsCommon)
+                {
+                    var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
+                    var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
+                    var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
+                    client.IsChecked = true;
+                    project.IsChecked = true;
+                    article.IsChecked = true;
+                }
             }
 
             data.Clients = clients;
