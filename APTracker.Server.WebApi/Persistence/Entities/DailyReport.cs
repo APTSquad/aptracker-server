@@ -19,11 +19,13 @@ namespace APTracker.Server.WebApi.Persistence.Entities
 
         public long UserId { get; set; }
 
+        public ReportState State { get; set; } = ReportState.Editable;
+
 
         /// <summary>
         ///     Время сохранения отчета
         /// </summary>
-        public DateTime Saved { get; set; }
+        public DateTime LastEdited { get; set; }
 
         /// <summary>
         ///     Идентификатор

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,59 @@ namespace APTracker.Server.WebApi.Controllers
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public enum ReportState
+        {
+            Editable,
+            Fixed,
+            Empty
+        }
+
+        private IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
+        }
+
+        public class ReportStateItem
+        {
+            public DateTime Date { get; set; }
+            public ReportState State { get; set; }
+        }
+
+        [HttpGet("getDays/{UserId}")]
+        [ProducesResponseType(typeof(ICollection<ReportStateItem>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetDaysData(long UserId)
+        {
+            var days = new List<ReportStateItem>();
+            var today = DateTime.Now.Date;
+            var reportItem = await _context.DailyReports
+                .Where(x =>  x.UserId == UserId)
+                .OrderBy(x => x.Date)
+                .FirstOrDefaultAsync();
+            
+            if (reportItem != null)
+            {
+                var startDate = reportItem.Date.Date;
+                var reportItemsDict = await _context.DailyReports
+                    .ToDictionaryAsync(x => x.Date.Date);
+                foreach (DateTime day in EachDay(startDate, today))
+                {
+                    var stateItem = new ReportStateItem {Date = day};
+
+                    if (reportItemsDict.TryGetValue(day, out var report))
+                    {
+                        stateItem.State = (ReportState) report.State;
+                    }
+                    else
+                        stateItem.State = ReportState.Empty;
+
+                    days.Add(stateItem);
+                }
+            }
+
+            return Ok(days);
         }
 
         /// <summary>
@@ -52,7 +106,7 @@ namespace APTracker.Server.WebApi.Controllers
             var clients = await _context.Clients
                 .ProjectTo<ReportClientItem>(_mapper.ConfigurationProvider)
                 .ToListAsync();
-            
+
 
             foreach (var elem in theLatestDayBefore.ReportItems.Select(x => x.Article))
             {
@@ -69,7 +123,7 @@ namespace APTracker.Server.WebApi.Controllers
 
             return Ok(data);
         }
-        
+
         [HttpPost("saveReport")]
         public async Task<IActionResult> SaveReport([FromBody] SaveReportCommand req)
         {
@@ -80,10 +134,12 @@ namespace APTracker.Server.WebApi.Controllers
 
             if (cnt == 0)
                 return BadRequest();
-            
-            var reportItems = _mapper.Map<ICollection<ReportConsumptionItem>, List<ConsumptionReportItem>>(req.Articles);
 
-            var dailyReport = await _context.DailyReports.Include(x => x.ReportItems).FirstOrDefaultAsync(x => x.UserId == userId && x.Date == date);
+            var reportItems =
+                _mapper.Map<ICollection<ReportConsumptionItem>, List<ConsumptionReportItem>>(req.Articles);
+
+            var dailyReport = await _context.DailyReports.Include(x => x.ReportItems)
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Date == date);
 
             if (dailyReport == null)
             {
@@ -102,16 +158,13 @@ namespace APTracker.Server.WebApi.Controllers
 
         private async Task<ICollection<ReportArticleItem>> GenerateDefaultTemplate()
         {
-            return await _context.ConsumptionArticles
+            var data = await _context.ConsumptionArticles
                 .Where(x => x.IsCommon && x.IsActive)
-                .ProjectTo<ReportArticleItem>(_mapper.ConfigurationProvider).ToListAsync();
-        }
+                .ProjectTo<ReportArticleItem>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+            data.ForEach(x => x.IsChecked = true);
 
-        public class Date
-        {
-            public int Day { get; set; }
-            public int Month { get; set; }
-            public int Year { get; set; }
+            return data;
         }
     }
 }
