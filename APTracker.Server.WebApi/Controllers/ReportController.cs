@@ -52,18 +52,17 @@ namespace APTracker.Server.WebApi.Controllers
             var clients = await _context.Clients
                 .ProjectTo<ReportClientItem>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+            
 
             foreach (var elem in theLatestDayBefore.ReportItems.Select(x => x.Article))
             {
-                if (!elem.IsCommon)
-                {
-                    var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
-                    var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
-                    var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
-                    client.IsChecked = true;
-                    project.IsChecked = true;
-                    article.IsChecked = true;
-                }
+                if (elem.IsCommon) continue;
+                var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
+                var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
+                var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
+                client.IsChecked = true;
+                project.IsChecked = true;
+                article.IsChecked = true;
             }
 
             data.Clients = clients;
