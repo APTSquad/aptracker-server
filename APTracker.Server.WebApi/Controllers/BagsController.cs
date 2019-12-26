@@ -16,6 +16,7 @@ namespace APTracker.Server.WebApi.Controllers
 {
     //[Authorize]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class BagsController : Controller
     {
         private readonly AppDbContext _context;

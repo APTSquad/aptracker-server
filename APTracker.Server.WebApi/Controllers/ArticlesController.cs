@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 namespace APTracker.Server.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class ArticlesController : Controller
     {
         private readonly AppDbContext _context;

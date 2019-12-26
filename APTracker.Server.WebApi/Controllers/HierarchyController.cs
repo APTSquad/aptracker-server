@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace APTracker.Server.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class HierarchyController : Controller
     {
         private readonly AppDbContext _context;

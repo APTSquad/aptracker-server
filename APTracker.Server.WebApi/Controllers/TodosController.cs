@@ -24,6 +24,7 @@ namespace APTracker.Server.WebApi.Controllers
 
     [Authorize]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class TodosController : Controller
     {
         private static readonly ConcurrentBag<TodoItem> TodoStore = new ConcurrentBag<TodoItem>();
