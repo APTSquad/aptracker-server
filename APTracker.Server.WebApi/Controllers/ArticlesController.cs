@@ -2,12 +2,14 @@ using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands;
 using APTracker.Server.WebApi.Commands.Articles;
 using APTracker.Server.WebApi.Commands.Articles.Create;
+using APTracker.Server.WebApi.Commands.Articles.Detail;
 using APTracker.Server.WebApi.Commands.Articles.GetAll;
 using APTracker.Server.WebApi.Commands.Articles.Modify;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -75,6 +77,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ArticleDetailResponse))]
         public async Task<IActionResult> CreateOne([FromBody] ArticleCreateRequest request)
         {
             var res = await _context.ConsumptionArticles.AddAsync(_mapper.Map<ConsumptionArticle>(request));
