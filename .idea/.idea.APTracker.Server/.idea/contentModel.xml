@@ -80,6 +80,7 @@
             <e p="ReportProjectItem.cs" t="Include" />
             <e p="ReportTemplateRequest.cs" t="Include" />
             <e p="ReportTemplateResponse.cs" t="Include" />
+            <e p="SaveReportCommand.cs" t="Include" />
           </e>
           <e p="SetBagRequest.cs" t="Include" />
           <e p="User" t="Include">

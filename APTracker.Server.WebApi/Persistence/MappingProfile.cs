@@ -27,6 +27,9 @@ namespace APTracker.Server.WebApi.Persistence
             CreateMap<ConsumptionArticle, ArticleDetailResponse>();
             CreateMap<Project, ProjectSimplified>();
             CreateMap<Client, ClientSimplified>();
+            
+            CreateMap<ReportConsumptionItem, ConsumptionReportItem>();
+  
 
             CreateMap<ConsumptionArticle, ReportArticleItem>();
             CreateMap<Project, ReportProjectItem>();

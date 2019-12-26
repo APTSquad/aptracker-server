@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands.Report;
 using APTracker.Server.WebApi.Persistence;
+using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
@@ -61,13 +62,42 @@ namespace APTracker.Server.WebApi.Controllers
 
             return Ok(data);
         }
+        
+        [HttpPost("saveReport")]
+        public async Task<IActionResult> SaveReport([FromBody] SaveReportCommand req)
+        {
+            var userId = req.UserId;
+            var date = req.Date.Date;
+
+            var cnt = await _context.Users.CountAsync(x => x.Id == userId);
+
+            if (cnt == 0)
+                return BadRequest();
+            
+            var reportItems = _mapper.Map<ICollection<ReportConsumptionItem>, List<ConsumptionReportItem>>(req.Articles);
+
+            var dailyReport = await _context.DailyReports.Include(x => x.ReportItems).FirstOrDefaultAsync(x => x.UserId == userId && x.Date == date);
+
+            if (dailyReport == null)
+            {
+                var newReport = new DailyReport {UserId = userId, Date = date, ReportItems = reportItems};
+                await _context.DailyReports.AddAsync(newReport);
+            }
+            else
+            {
+                dailyReport.ReportItems = reportItems;
+                _context.DailyReports.Update(dailyReport);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
 
         private async Task<ICollection<ReportArticleItem>> GenerateDefaultTemplate()
         {
-            var globals = await _context.ConsumptionArticles
+            return await _context.ConsumptionArticles
                 .Where(x => x.IsCommon && x.IsActive)
                 .ProjectTo<ReportArticleItem>(_mapper.ConfigurationProvider).ToListAsync();
-            return globals;
         }
 
         public class Date
