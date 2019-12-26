@@ -6,5 +6,7 @@ namespace APTracker.Server.WebApi.Commands.Bag.GetById
     {
         public string Name { get; set; }
         public long Id { get; set; }
+        
+        public BagClientView Client { get; set; }
     }
 }

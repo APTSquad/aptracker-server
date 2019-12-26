@@ -4,5 +4,7 @@ namespace APTracker.Server.WebApi.Commands.Bag.GetById
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        
+        public BagProjectView Project { get; set; }
     }
 }

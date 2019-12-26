@@ -6,6 +6,7 @@ using APTracker.Server.WebApi.Commands.Client.Create;
 using APTracker.Server.WebApi.Commands.Hierarchy.Views;
 using APTracker.Server.WebApi.Commands.Project.Create;
 using APTracker.Server.WebApi.Commands.Project.GetAll;
+using APTracker.Server.WebApi.Commands.Report;
 using APTracker.Server.WebApi.Commands.User;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
@@ -18,6 +19,14 @@ namespace APTracker.Server.WebApi.Persistence
         {
             CreateMap<Bag, BagGetAllResponse>();
             CreateMap<Bag, BagGetByIdResponse>();
+            
+            
+            CreateMap<ConsumptionArticle, ReportArticleItem>();
+            CreateMap<Project, ReportProjectItem>();
+            CreateMap<Client, ReportClientItem>();
+            
+            
+     
 
 
             CreateMap<Project, ProjectGetAllResponse>();
