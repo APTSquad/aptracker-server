@@ -1,8 +1,11 @@
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands;
+using APTracker.Server.WebApi.Commands.Articles;
+using APTracker.Server.WebApi.Commands.Articles.Create;
 using APTracker.Server.WebApi.Commands.Articles.GetAll;
 using APTracker.Server.WebApi.Commands.Articles.Modify;
 using APTracker.Server.WebApi.Persistence;
+using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +36,7 @@ namespace APTracker.Server.WebApi.Controllers
         public async Task<IActionResult> GetById(long id)
         {
             if (await _context.ConsumptionArticles.CountAsync(x => x.Id == id) == 0) return NotFound();
-            return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
+            return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleDetailResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == id));
         }
 
@@ -69,6 +72,16 @@ namespace APTracker.Server.WebApi.Controllers
 
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOne([FromBody] ArticleCreateRequest request)
+        {
+            var res = await _context.ConsumptionArticles.AddAsync(_mapper.Map<ConsumptionArticle>(request));
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(CreateOne),
+                await _context.ConsumptionArticles.ProjectTo<ArticleDetailResponse>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(x => x.Id == res.Entity.Id));
         }
     }
 }
