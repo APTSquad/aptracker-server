@@ -8,7 +8,6 @@ namespace APTracker.Server.WebApi.Commands.Project.Create
         public string Name { get; set; }
 
         public BagView? Bag { get; set; }
-
         public long Id { get; set; }
     }
 }

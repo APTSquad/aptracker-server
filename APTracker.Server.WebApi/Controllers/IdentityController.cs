@@ -9,6 +9,7 @@ namespace APTracker.Server.WebApi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class IdentityController : Controller
     {
         private readonly AppDbContext _context;

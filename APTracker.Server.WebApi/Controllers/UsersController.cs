@@ -1,13 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands.User.Modify;
 using APTracker.Server.WebApi.Persistence;
+using APTracker.Server.WebApi.Persistence.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace APTracker.Server.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class UsersController : Controller
     {
         private readonly AppDbContext _context;
@@ -18,6 +22,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ICollection<User>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(_context.Users.OrderBy(x => x.Id));
@@ -45,6 +50,7 @@ namespace APTracker.Server.WebApi.Controllers
         }*/
 
         [HttpPut]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<IActionResult> Put([FromBody] UserModifyRequest resource)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == resource.Id);

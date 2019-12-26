@@ -11,7 +11,6 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         public double Rate { get; set; } = 1.0;
 
         public ICollection<Bag> Bags { get; set; }
-
         public long Id { get; set; }
     }
 }

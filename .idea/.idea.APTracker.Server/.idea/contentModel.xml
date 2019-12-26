@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_APTracker.Server.1505793934.00" t="ExcludeRecursive" />
-    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$" t="IncludeFlat">
+    <e p="C:\Users\Eugene Mi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Eugene Mi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_APTracker.Server.-1211153487.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Eugene Mi\RiderProjects\aptracker-server" t="IncludeFlat">
       <e p="APTracker.Server.sln" t="IncludeFlat" />
       <e p="APTracker.Server.WebApi" t="IncludeRecursive">
         <e p="appsettings.Development.json" t="Include" />
@@ -13,6 +12,12 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Commands" t="Include">
           <e p="Articles" t="Include">
+            <e p="Create" t="Include">
+              <e p="ArticleCreateRequest.cs" t="Include" />
+            </e>
+            <e p="Detail" t="Include">
+              <e p="ArticleDetailResponse.cs" t="Include" />
+            </e>
             <e p="GetAll" t="Include">
               <e p="ArticleGetAllResponse.cs" t="Include" />
             </e>
@@ -75,6 +80,7 @@
             <e p="ReportProjectItem.cs" t="Include" />
             <e p="ReportTemplateRequest.cs" t="Include" />
             <e p="ReportTemplateResponse.cs" t="Include" />
+            <e p="SaveReportCommand.cs" t="Include" />
           </e>
           <e p="SetBagRequest.cs" t="Include" />
           <e p="User" t="Include">

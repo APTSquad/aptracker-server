@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands;
 using APTracker.Server.WebApi.Commands.Project.Create;
@@ -7,12 +8,14 @@ using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace APTracker.Server.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class ProjectsController : Controller
     {
         private readonly AppDbContext _context;
@@ -25,6 +28,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ICollection<ProjectGetAllResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _context.Projects.ProjectTo<ProjectGetAllResponse>(_mapper.ConfigurationProvider)
@@ -32,6 +36,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ProjectGetAllResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(long id)
         {
             if (await _context.Projects.CountAsync(x => x.Id == id) == 0) return NotFound();
@@ -40,6 +45,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] ProjectCreateRequest request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(b => b.Id == request.ClientId);
@@ -52,6 +58,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Put([FromBody] ProjectModifyRequest request)
         {
             var foundProject = await _context.Projects.FirstOrDefaultAsync(c => c.Id == request.Id);
@@ -67,6 +74,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost("setBag")]
+        [ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
             var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
