@@ -5,6 +5,7 @@ using APTracker.Server.WebApi.Commands.Report;
 using APTracker.Server.WebApi.Persistence;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,7 @@ namespace APTracker.Server.WebApi.Controllers
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost("getTemplate")]
+        [ProducesResponseType(typeof(ReportTemplateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTemplate([FromBody] ReportTemplateRequest req)
         {
             var date = req.Date.Date;

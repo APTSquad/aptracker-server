@@ -9,19 +9,19 @@ namespace APTracker.Server.WebApi.Commands.Articles.Detail
         public ProjectSimplified Project { get; set; }
         public long Id { get; set; }
     }
-    
-     public class ProjectSimplified
-        {
-            public long Id { get; set; }
-            public string Name { get; set; }
-            public BagView? Bag { get; set; }
-            public ClientSimplified? Client { get; set; }
-        }
-    
-        public class ClientSimplified
-        {
-            public long Id { get; set; }
-            public string Name { get; set; }
-            public BagView? Bag { get; set; }
-        }
+
+    public class ProjectSimplified
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public BagView? Bag { get; set; }
+        public ClientSimplified? Client { get; set; }
+    }
+
+    public class ClientSimplified
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public BagView? Bag { get; set; }
+    }
 }

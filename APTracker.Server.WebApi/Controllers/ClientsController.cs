@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands;
 using APTracker.Server.WebApi.Commands.Client.Create;
@@ -6,6 +7,7 @@ using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +26,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ClientCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(long id)
         {
             if (await _context.Clients.CountAsync(x => x.Id == id) == 0) return NotFound();
@@ -32,6 +35,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(ClientCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] ClientCreateRequest request)
         {
             var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
@@ -44,6 +48,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost("setBag")]
+        [ProducesResponseType(typeof(ClientCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
             if (!request.BagId.HasValue) return BadRequest("BagId is required");
@@ -64,6 +69,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(ClientCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Put([FromBody] ClientModifyRequest client)
         {
             var foundClient = await _context.Clients.FirstOrDefaultAsync(c => c.Id == client.Id);
@@ -79,6 +85,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ICollection<ClientCreateResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _context.Clients.ProjectTo<ClientCreateResponse>(_mapper.ConfigurationProvider)

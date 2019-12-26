@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands.Bag.Create;
 using APTracker.Server.WebApi.Commands.Bag.GetAll;
@@ -7,6 +8,7 @@ using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,12 +28,14 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ICollection<BagGetAllResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider).ToListAsync());
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BagGetByIdResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(long id)
         {
             if (await _context.Bags.CountAsync(x => x.Id == id) == 0) return NotFound();
@@ -40,6 +44,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(BagGetAllResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateOne([FromBody] BagCreateRequest request)
         {
             var res = await _context.Bags.AddAsync(_mapper.Map<Bag>(request));
@@ -50,6 +55,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(BagGetAllResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Put([FromBody] BagModifyRequest request)
         {
             var bag = await _context.Bags.Include(x => x.Responsible).FirstOrDefaultAsync(x => x.Id == request.Id);
