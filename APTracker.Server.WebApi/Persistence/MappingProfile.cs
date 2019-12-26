@@ -19,14 +19,11 @@ namespace APTracker.Server.WebApi.Persistence
         {
             CreateMap<Bag, BagGetAllResponse>();
             CreateMap<Bag, BagGetByIdResponse>();
-            
-            
+
+
             CreateMap<ConsumptionArticle, ReportArticleItem>();
             CreateMap<Project, ReportProjectItem>();
             CreateMap<Client, ReportClientItem>();
-            
-            
-     
 
 
             CreateMap<Project, ProjectGetAllResponse>();
