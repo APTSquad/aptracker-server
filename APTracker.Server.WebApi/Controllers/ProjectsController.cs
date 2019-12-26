@@ -42,7 +42,7 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProjectCreateRequest request)
         {
-            var client = _context.Clients.FirstOrDefaultAsync(b => b.Id == request.ClientId);
+            var client = await _context.Clients.FirstOrDefaultAsync(b => b.Id == request.ClientId);
             if (client == null) return BadRequest();
             var ent = await _context.Projects.AddAsync(_mapper.Map<Project>(request));
             await _context.SaveChangesAsync();

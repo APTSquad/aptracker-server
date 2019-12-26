@@ -1,3 +1,4 @@
+using APTracker.Server.WebApi.Commands.Hierarchy.Views;
 using APTracker.Server.WebApi.Persistence.Entities;
 
 namespace APTracker.Server.WebApi.Commands.Project.Create
@@ -6,7 +7,7 @@ namespace APTracker.Server.WebApi.Commands.Project.Create
     {
         public string Name { get; set; }
 
-        public Persistence.Entities.Bag? Bag { get; set; }
+        public BagView? Bag { get; set; }
 
         public long Id { get; set; }
     }
