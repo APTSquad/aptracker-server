@@ -50,8 +50,8 @@ namespace APTracker.Server.WebApi.Controllers
         [ProducesResponseType(typeof(ArticleDetailResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
-            var bagFound = await _context.Bags.AnyAsync(b => b.Id == request.BagId);
-            if (!bagFound) return BadRequest();
+            /*var bagFound = await _context.Bags.AnyAsync(b => b.Id == request.BagId);
+            if (!bagFound) return BadRequest();*/
             var article = await _context.ConsumptionArticles.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (article == null)

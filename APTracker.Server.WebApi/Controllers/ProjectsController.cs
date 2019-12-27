@@ -77,8 +77,8 @@ namespace APTracker.Server.WebApi.Controllers
         [ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
-            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
-            if (bag == null) return BadRequest();
+            /*var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
+            if (bag == null) return BadRequest();*/
             var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (project == null)
