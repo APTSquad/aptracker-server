@@ -127,13 +127,16 @@ namespace APTracker.Server.WebApi.Controllers
         [HttpPost("saveReport")]
         public async Task<IActionResult> SaveReport([FromBody] SaveReportCommand req)
         {
+            if (req.Date.Date > DateTime.Today)
+                return BadRequest("Cannot report the future");
+            
             var userId = req.UserId;
             var date = req.Date.Date;
 
-            var cnt = await _context.Users.CountAsync(x => x.Id == userId);
+            var user = await _context.Users.AnyAsync(x => x.Id == userId);
 
-            if (cnt == 0)
-                return BadRequest();
+            if (!user)
+                return BadRequest("User wasn't found");
 
             var reportItems =
                 _mapper.Map<ICollection<ReportConsumptionItem>, List<ConsumptionReportItem>>(req.Articles);

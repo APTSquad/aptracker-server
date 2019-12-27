@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands;
 using APTracker.Server.WebApi.Commands.Articles.Create;
@@ -49,12 +50,12 @@ namespace APTracker.Server.WebApi.Controllers
         [ProducesResponseType(typeof(ArticleDetailResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> SetBag([FromBody] SetBagRequest request)
         {
-            var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
-            if (bag == null) return BadRequest();
+            var bagFound = await _context.Bags.AnyAsync(b => b.Id == request.BagId);
+            if (!bagFound) return BadRequest();
             var article = await _context.ConsumptionArticles.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (article == null)
-                return NotFound("Client wasn't found");
+                return NotFound("Article wasn't found");
 
             article.BagId = request.BagId;
 
@@ -85,6 +86,11 @@ namespace APTracker.Server.WebApi.Controllers
         [ProducesResponseType(typeof(ArticleDetailResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateOne([FromBody] ArticleCreateRequest request)
         {
+            var found = await _context.Projects.AnyAsync(x => x.Id == request.ProjectId);
+            if (!found)
+                return NotFound("Project wasn't found");
+
+
             var res = await _context.ConsumptionArticles.AddAsync(_mapper.Map<ConsumptionArticle>(request));
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(CreateOne),

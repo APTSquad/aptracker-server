@@ -13,7 +13,7 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         /// <summary>
         ///     Признак активности статьи
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         /// <summary>
         ///     Индикатор общности статьи
