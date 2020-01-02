@@ -45,6 +45,9 @@
               <e p="BagModifyResponse.cs" t="Include" />
             </e>
           </e>
+          <e p="BagReport" t="Include">
+            <e p="BagReportRequest.cs" t="Include" />
+          </e>
           <e p="Client" t="Include">
             <e p="Create" t="Include">
               <e p="ClientCreateRequest.cs" t="Include" />
@@ -94,6 +97,7 @@
         </e>
         <e p="Controllers" t="Include">
           <e p="ArticlesController.cs" t="Include" />
+          <e p="BagReportController.cs" t="Include" />
           <e p="BagsController.cs" t="Include" />
           <e p="ClientsController.cs" t="Include" />
           <e p="HierarchyController.cs" t="Include" />

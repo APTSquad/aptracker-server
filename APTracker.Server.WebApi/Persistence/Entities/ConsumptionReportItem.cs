@@ -14,6 +14,17 @@ namespace APTracker.Server.WebApi.Persistence.Entities
         ///     Статья
         /// </summary>
         public ConsumptionArticle Article { get; set; }
+        
+        /// <summary>
+        /// Отчет за день
+        /// </summary>
+        public DailyReport DailyReport { get; set; }
+        
+        
+        /// <summary>
+        /// ИД отчета за день
+        /// </summary>
+        public long DailyReportId { get; set; }
 
         /// <summary>
         ///     Статья
