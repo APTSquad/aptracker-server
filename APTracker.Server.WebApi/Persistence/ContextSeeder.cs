@@ -11,7 +11,7 @@ namespace APTracker.Server.WebApi.Persistence
         /// <summary>
         ///     Версия сида
         /// </summary>
-        private const int SeedVersion = 1;
+        private const int SeedVersion = 2;
 
         /// <summary>
         ///     Адрес пользователя-индикатора текущей версии сида
@@ -85,7 +85,7 @@ namespace APTracker.Server.WebApi.Persistence
                 },
                 new Client
                 {
-                    Bag = bags[0], Name = "MG", Projects = new List<Project>
+                    Bag = bags[1], Name = "MG", Projects = new List<Project>
                     {
                         new Project
                         {
