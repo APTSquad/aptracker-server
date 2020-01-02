@@ -143,6 +143,7 @@
         </e>
         <e p="Persistence" t="Include">
           <e p="AppDbContext.cs" t="Include" />
+          <e p="ContextSeeder.cs" t="Include" />
           <e p="Entities" t="Include">
             <e p="Bag.cs" t="Include" />
             <e p="Client.cs" t="Include" />

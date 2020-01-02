@@ -79,6 +79,7 @@ namespace APTracker.Server.WebApi
             using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
             context.Database.Migrate();
+            ContextSeeder.SeedDatabase(context);
         }
     }
 }
