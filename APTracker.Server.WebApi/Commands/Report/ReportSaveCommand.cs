@@ -8,7 +8,8 @@ namespace APTracker.Server.WebApi.Commands.Report
         public long ArticleId { get; set; }
         public double HoursConsumption { get; set; }
     }
-    public class SaveReportCommand
+
+    public class ReportSaveCommand
     {
         public DateTime Date { get; set; }
         public long UserId { get; set; }

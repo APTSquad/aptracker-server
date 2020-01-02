@@ -78,10 +78,11 @@
           <e p="Report" t="Include">
             <e p="ReportArticleItem.cs" t="Include" />
             <e p="ReportClientItem.cs" t="Include" />
+            <e p="ReportGetCommand.cs" t="Include" />
             <e p="ReportProjectItem.cs" t="Include" />
+            <e p="ReportSaveCommand.cs" t="Include" />
             <e p="ReportTemplateRequest.cs" t="Include" />
             <e p="ReportTemplateResponse.cs" t="Include" />
-            <e p="SaveReportCommand.cs" t="Include" />
           </e>
           <e p="SetBagRequest.cs" t="Include" />
           <e p="User" t="Include">

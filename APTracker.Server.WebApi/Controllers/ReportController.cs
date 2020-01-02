@@ -17,6 +17,13 @@ namespace APTracker.Server.WebApi.Controllers
     [Produces("application/json")]
     public class ReportController : Controller
     {
+        public enum ReportState
+        {
+            Editable,
+            Fixed,
+            Empty
+        }
+
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
@@ -26,23 +33,10 @@ namespace APTracker.Server.WebApi.Controllers
             _mapper = mapper;
         }
 
-        public enum ReportState
-        {
-            Editable,
-            Fixed,
-            Empty
-        }
-
         private IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;
-        }
-
-        public class ReportStateItem
-        {
-            public DateTime Date { get; set; }
-            public ReportState State { get; set; }
         }
 
         [HttpGet("getDays/{UserId}")]
@@ -52,23 +46,21 @@ namespace APTracker.Server.WebApi.Controllers
             var days = new List<ReportStateItem>();
             var today = DateTime.Now.Date;
             var reportItem = await _context.DailyReports
-                .Where(x =>  x.UserId == UserId)
+                .Where(x => x.UserId == UserId)
                 .OrderBy(x => x.Date)
                 .FirstOrDefaultAsync();
-            
+
             if (reportItem != null)
             {
                 var startDate = reportItem.Date.Date;
                 var reportItemsDict = await _context.DailyReports
                     .ToDictionaryAsync(x => x.Date.Date);
-                foreach (DateTime day in EachDay(startDate, today))
+                foreach (var day in EachDay(startDate, today))
                 {
                     var stateItem = new ReportStateItem {Date = day};
 
                     if (reportItemsDict.TryGetValue(day, out var report))
-                    {
                         stateItem.State = (ReportState) report.State;
-                    }
                     else
                         stateItem.State = ReportState.Empty;
 
@@ -124,12 +116,58 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(data);
         }
 
+        [HttpPost("getReport")]
+        public async Task<IActionResult> ReportGetCommand([FromBody] ReportGetCommand req)
+        {
+            // TODO: Date checks & mapping queries
+            var userId = req.UserId;
+            var date = req.Date.Date;
+
+            var user = await _context.Users.AnyAsync(x => x.Id == userId);
+
+            if (!user)
+                return BadRequest("User wasn't found");
+
+            var dailyReport = await _context.DailyReports
+                .Include(x => x.ReportItems)
+                .ThenInclude(x => x.Article)
+                .ThenInclude(x => x.Project)
+                .ThenInclude(x => x.Client)
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (dailyReport == null)
+                return BadRequest("Report wasn't found");
+
+            var grouped = dailyReport.ReportItems
+                .Where(x => !x.Article.IsCommon)
+                .GroupBy(x => new {x.Article.Project.Client, x.Article.Project}).ToList();
+
+
+            foreach (var item in grouped) item.Key.Client.Projects = new List<Project>();
+
+            foreach (var elem in grouped)
+            {
+                var proj = elem.Key.Project;
+                var client = elem.Key.Client;
+                proj.Client = null;
+                client.Projects.Add(proj);
+
+                var lst = elem.Select(x => x.Article).ToList();
+                lst.ForEach(x => x.Project = null);
+                elem.Key.Project.Articles = lst;
+            }
+
+            var clients = grouped.Select(x => x.Key.Client).ToList();
+
+            return Ok(clients);
+        }
+
         [HttpPost("saveReport")]
-        public async Task<IActionResult> SaveReport([FromBody] SaveReportCommand req)
+        public async Task<IActionResult> SaveReport([FromBody] ReportSaveCommand req)
         {
             if (req.Date.Date > DateTime.Today)
                 return BadRequest("Cannot report the future");
-            
+
             var userId = req.UserId;
             var date = req.Date.Date;
 
@@ -168,6 +206,12 @@ namespace APTracker.Server.WebApi.Controllers
             data.ForEach(x => x.IsChecked = true);
 
             return data;
+        }
+
+        public class ReportStateItem
+        {
+            public DateTime Date { get; set; }
+            public ReportState State { get; set; }
         }
     }
 }

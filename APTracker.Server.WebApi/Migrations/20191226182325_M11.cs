@@ -8,18 +8,18 @@ namespace APTracker.Server.WebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Saved",
-                table: "DailyReports");
+                "Saved",
+                "DailyReports");
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "LastEdited",
-                table: "DailyReports",
+                "LastEdited",
+                "DailyReports",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<int>(
-                name: "State",
-                table: "DailyReports",
+                "State",
+                "DailyReports",
                 nullable: false,
                 defaultValue: 0);
         }
@@ -27,17 +27,17 @@ namespace APTracker.Server.WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "LastEdited",
-                table: "DailyReports");
+                "LastEdited",
+                "DailyReports");
 
             migrationBuilder.DropColumn(
-                name: "State",
-                table: "DailyReports");
+                "State",
+                "DailyReports");
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "Saved",
-                table: "DailyReports",
-                type: "timestamp without time zone",
+                "Saved",
+                "DailyReports",
+                "timestamp without time zone",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
