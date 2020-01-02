@@ -53,7 +53,7 @@ namespace APTracker.Server.WebApi.Controllers
 
             var usersClients = clientsFromBag.Select(x => x.DailyReport.User).Distinct();
             var projectsFromBag = reportItemsWithProjects
-                .Where(x => x.Article.Project.BagId != bag.Id).ToList();
+                .Where(x => x.Article.Project.BagId == bag.Id).ToList();
 
             var usersProjects = projectsFromBag.Select(x => x.DailyReport.User).Distinct();
             var articlesFromBag = reportItemsWithProjects
