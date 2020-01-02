@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands.BagReport;
-using APTracker.Server.WebApi.Commands.Hierarchy.Views;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +21,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
 
         [HttpPost]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        // TODO: [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllHierarchy([FromBody] BagReportRequest request)
         {
             var bag = await _context.Bags
@@ -67,40 +65,11 @@ namespace APTracker.Server.WebApi.Controllers
             var byClient = GetSummariesByUser(clientsFromBag, relatedUsers);
             var byProject = GetSummariesByUser(projectsFromBag, relatedUsers);
             var byArticle = GetSummariesByUser(articlesFromBag, relatedUsers);
-            var usersViews = relatedUsers.Select(x => new {Id = x.Id, Name = x.Name}).ToList();
+            var usersViews = relatedUsers.Select(x => new {x.Id, x.Name}).ToList();
 
 
             return Ok(new {Clients = byClient, Projects = byProject, Articles = byArticle, Users = usersViews});
         }
-
-        /*private static object GetSummaries(IEnumerable<ConsumptionReportItem> projects)
-        {
-            return projects
-                .GroupBy(x => x.Article.Project.Client)
-                .Select(x => new
-                {
-                    ClientName = x.Key.Name,
-                    Summary = x.Sum(x => x.HoursConsumption),
-                    Projects = x.GroupBy(x => x.Article.Project)
-                        .Select(x => new
-                        {
-                            ProjectName = x.Key.Name,
-                            Summary = x.Sum(x => x.HoursConsumption),
-                            Articles = x.GroupBy(x => x.Article)
-                                .Select(x => new
-                                {
-                                    ArticleName = x.Key.Name,
-                                    Summary = x.Sum(x => x.HoursConsumption),
-                                    Users = x.GroupBy(x => x.DailyReport.User)
-                                        .Select(x => new
-                                        {
-                                            UserId = x.Key.Id,
-                                            Summary = x.Sum(x => x.HoursConsumption)
-                                        })
-                                })
-                        })
-                }).ToList();
-        }*/
 
         private static object GetUsersData(IEnumerable<ConsumptionReportItem> consumptionReportItems,
             IEnumerable<User> allUsers)
