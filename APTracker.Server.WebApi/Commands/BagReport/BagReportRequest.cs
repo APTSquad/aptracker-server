@@ -6,7 +6,7 @@ namespace APTracker.Server.WebApi.Commands.BagReport
     {
         public long BagId { get; set; }
 
-        public DateTime Start { get; set; }
+        public DateTime Begin { get; set; }
 
         public DateTime End { get; set; }
     }

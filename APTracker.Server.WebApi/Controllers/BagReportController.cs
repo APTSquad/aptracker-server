@@ -22,7 +22,7 @@ namespace APTracker.Server.WebApi.Controllers
 
         [HttpPost]
         // TODO: [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllHierarchy([FromBody] BagReportRequest request)
+        public async Task<IActionResult> GetReport([FromBody] BagReportRequest request)
         {
             var bag = await _context.Bags
                 .Include(x => x.Responsible)
@@ -30,7 +30,7 @@ namespace APTracker.Server.WebApi.Controllers
             if (bag == null)
                 return NotFound();
 
-            var startDate = request.Start.Date;
+            var startDate = request.Begin.Date;
             var endDate = request.End.Date;
 
             var reportItems = await _context.ConsumptionReportItems
@@ -98,17 +98,16 @@ namespace APTracker.Server.WebApi.Controllers
                 .Select(x => new
                 {
                     ClientName = x.Key.Name,
-                    Summary = x.Sum(x => x.HoursConsumption),
+                    Users = GetUsersData(x, users),
                     Projects = x.GroupBy(x => x.Article.Project)
                         .Select(x => new
                         {
                             ProjectName = x.Key.Name,
-                            Summary = x.Sum(x => x.HoursConsumption),
+                            Users = GetUsersData(x, users),
                             Articles = x.GroupBy(x => x.Article)
                                 .Select(x => new
                                 {
                                     ArticleName = x.Key.Name,
-                                    Summary = x.Sum(x => x.HoursConsumption),
                                     Users = GetUsersData(x, users)
                                 })
                         })
