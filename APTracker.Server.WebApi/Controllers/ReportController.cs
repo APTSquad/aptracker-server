@@ -133,7 +133,7 @@ namespace APTracker.Server.WebApi.Controllers
                 .ThenInclude(x => x.Article)
                 .ThenInclude(x => x.Project)
                 .ThenInclude(x => x.Client)
-                .FirstOrDefaultAsync(x => x.UserId == userId);
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Date == date);
 
             if (dailyReport == null)
                 return BadRequest("Report wasn't found");
