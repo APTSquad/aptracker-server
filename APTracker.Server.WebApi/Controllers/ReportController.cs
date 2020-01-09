@@ -82,7 +82,7 @@ namespace APTracker.Server.WebApi.Controllers
         {
             var date = req.Date.Date;
             var theLatestDayBefore = await _context.DailyReports
-                .Where(x => x.Date < date)
+                .Where(x => x.Date <= date && x.UserId == req.UserId)
                 .OrderByDescending(x => x.Date)
                 .Include(x => x.ReportItems)
                 .ThenInclude(x => x.Article)
