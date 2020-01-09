@@ -175,6 +175,7 @@ namespace APTracker.Server.WebApi.Controllers
 
             if (!user)
                 return BadRequest("User wasn't found");
+            
 
             var reportItems =
                 _mapper.Map<ICollection<ReportConsumptionItem>, List<ConsumptionReportItem>>(req.Articles);

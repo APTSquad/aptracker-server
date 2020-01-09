@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using APTracker.Server.WebApi.Commands.Bag.Create;
 using APTracker.Server.WebApi.Commands.Bag.GetAll;
@@ -33,6 +34,18 @@ namespace APTracker.Server.WebApi.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider).ToListAsync());
+        }
+        
+        [HttpGet("myBags")]
+        [ProducesResponseType(typeof(ICollection<BagGetAllResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMyBags()
+        {
+            var user = await UserUtils.GetUser(_context, User);
+            if (user.Role == Role.Admin)
+            {
+                return Ok(await _context.Bags.ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider).ToListAsync());
+            }
+            return Ok(await _context.Bags.Where(x => x.ResponsibleId == user.Id).ProjectTo<BagGetAllResponse>(_mapper.ConfigurationProvider).ToListAsync());
         }
 
         [HttpGet("{id}")]

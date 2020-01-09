@@ -45,7 +45,7 @@ namespace APTracker.Server.WebApi.Controllers
             }
 
             var userEntityEntry =
-                await _context.Users.AddAsync(new User {Email = email, Role = Role.Developer, Name = name});
+                await _context.Users.AddAsync(new User {Email = email, Role = Role.Admin, Name = name});
             await _context.SaveChangesAsync();
             return Ok(userEntityEntry.Entity);
         }
