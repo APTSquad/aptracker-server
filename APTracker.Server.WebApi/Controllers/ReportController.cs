@@ -138,45 +138,32 @@ namespace APTracker.Server.WebApi.Controllers
             if (dailyReport == null)
                 return BadRequest("Report wasn't found");
 
-            var grouped = dailyReport.ReportItems
-                .Where(x => !x.Article.IsCommon)
-                .GroupBy(x => new {x.Article.Project.Client, x.Article.Project}).ToList();
 
-
-            foreach (var item in grouped) item.Key.Client.Projects = new List<Project>();
-
-            foreach (var elem in grouped)
+            var itemsByClient = dailyReport.ReportItems.Where(x => !x.Article.IsCommon).GroupBy(x => x.Article.Project.Client).Distinct();
+            var clients = itemsByClient.Select(x => new
             {
-                var proj = elem.Key.Project;
-                var client = elem.Key.Client;
-                proj.Client = null;
-                client.Projects.Add(proj);
+                x.Key.Id,
+                x.Key.Name,
+                Projects = x.GroupBy(x => x.Article.Project).Select(x =>
+                new {
+                    x.Key.Id,
+                        x.Key.Name,
+                            Articles = x.Select(x => new
+                            {
+                                x.Article.Name,
+                                x.Article.Id,
+                                x.HoursConsumption
+                            })
+                })
+            });
 
-                var lst = elem.Select(x => x.Article).ToList();
-                lst.ForEach(x => x.Project = null);
-                elem.Key.Project.Articles = lst;
-            }
+            var common = dailyReport.ReportItems.Where(x => x.Article.IsCommon).Select(x => new
+            {
+                x.Article.Id,
+                x.HoursConsumption
+            });
 
-            var clients = grouped.Select(x => x.Key.Client).Select(x =>
-                new
-                {
-                    x.Id,
-                    x.Name,
-                    Projects = x.Projects.Select(x => new
-                    {
-                        x.Id,
-                        x.Name,
-                        Articles = x.Articles.Select(x => new
-                        {
-                            x.Id,
-                            x.Name,
-                            x.IsActive,
-                            dailyReport.ReportItems.Single(item => item.ArticleId == x.Id).HoursConsumption
-                        })
-                    }),
-                }).ToList();
-
-            return Ok(clients);
+            return Ok(new {common, clients});
         }
 
         [HttpPost("saveReport")]

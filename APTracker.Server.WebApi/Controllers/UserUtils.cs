@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APTracker.Server.WebApi.Controllers
 {
-    public class UserUtils
+    public static class UserUtils
     {
         public static string GetUserEmail(ClaimsPrincipal user)
         {

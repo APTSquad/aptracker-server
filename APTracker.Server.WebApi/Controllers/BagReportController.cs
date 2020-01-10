@@ -67,7 +67,6 @@ namespace APTracker.Server.WebApi.Controllers
             var byArticle = GetSummariesByUser(articlesFromBag, relatedUsers);
             var usersViews = relatedUsers.Select(x => new {x.Id, x.Name}).ToList();
 
-
             return Ok(new {Clients = byClient, Projects = byProject, Articles = byArticle, Users = usersViews});
         }
 
