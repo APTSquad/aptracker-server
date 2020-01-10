@@ -118,6 +118,7 @@ namespace APTracker.Server.WebApi.Controllers
         class DayInfoRepsponse
         {
             public ReportState ReportState { get; set; }
+            public int HoursRequired { get; set; }
             public object Data { get; set; }
         }
         
@@ -127,8 +128,8 @@ namespace APTracker.Server.WebApi.Controllers
         {
             var response = new DayInfoRepsponse { };
             var date = req.Date.Date;
-            var user = await _context.Users.AnyAsync(x => x.Id == req.UserId);
-            if (!user)
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == req.UserId);
+            if (user == null)
                 return BadRequest("User wasn't found");
 
             var report = await _context.DailyReports
@@ -145,6 +146,8 @@ namespace APTracker.Server.WebApi.Controllers
                 response.ReportState = ReportState.Empty;
                 response.Data = await GetTemplateImpl(new ReportTemplateRequest {Date = date, UserId = req.UserId});
             }
+
+            response.HoursRequired = (int)(user.Rate * 8);
 
             return Ok(response);
         }
@@ -163,24 +166,23 @@ namespace APTracker.Server.WebApi.Controllers
 
             var data = new ReportTemplateResponse {Common = await GenerateDefaultTemplate()};
 
-
-            if (theLatestDayBefore == null) return Ok(data);
-
             var clients = await _context.Clients
                 .ProjectTo<ReportClientItem>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
-
-            foreach (var elem in theLatestDayBefore.ReportItems.Where(x => !x.Article.IsCommon).Select(x => x.Article))
+            if (theLatestDayBefore != null)
             {
-                var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
-                var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
-                var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
-                client.IsChecked = true;
-                project.IsChecked = true;
-                article.IsChecked = true;
+                foreach (var elem in theLatestDayBefore.ReportItems.Where(x => !x.Article.IsCommon).Select(x => x.Article))
+                {
+                    var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
+                    var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
+                    var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
+                    client.IsChecked = true;
+                    project.IsChecked = true;
+                    article.IsChecked = true;
+                }
             }
-
+            
             data.Clients = clients;
 
             return data;
