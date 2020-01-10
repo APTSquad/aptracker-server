@@ -171,7 +171,7 @@ namespace APTracker.Server.WebApi.Controllers
                             x.Id,
                             x.Name,
                             x.IsActive,
-                            HoursConsumption = dailyReport.ReportItems.Where(item => item.ArticleId == x.Id).Select(x => x.HoursConsumption)
+                            dailyReport.ReportItems.Single(item => item.ArticleId == x.Id).HoursConsumption
                         })
                     }),
                 }).ToList();
