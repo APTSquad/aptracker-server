@@ -157,7 +157,24 @@ namespace APTracker.Server.WebApi.Controllers
                 elem.Key.Project.Articles = lst;
             }
 
-            var clients = grouped.Select(x => x.Key.Client).ToList();
+            var clients = grouped.Select(x => x.Key.Client).Select(x =>
+                new
+                {
+                    x.Id,
+                    x.Name,
+                    Projects = x.Projects.Select(x => new
+                    {
+                        x.Id,
+                        x.Name,
+                        Articles = x.Articles.Select(x => new
+                        {
+                            x.Id,
+                            x.Name,
+                            x.IsActive,
+                            HoursConsumption = dailyReport.ReportItems.Where(item => item.ArticleId == x.Id).Select(x => x.HoursConsumption)
+                        })
+                    }),
+                }).ToList();
 
             return Ok(clients);
         }
@@ -175,7 +192,7 @@ namespace APTracker.Server.WebApi.Controllers
 
             if (!user)
                 return BadRequest("User wasn't found");
-            
+
 
             var reportItems =
                 _mapper.Map<ICollection<ReportConsumptionItem>, List<ConsumptionReportItem>>(req.Articles);
