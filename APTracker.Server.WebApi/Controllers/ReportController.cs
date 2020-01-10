@@ -357,6 +357,7 @@ namespace APTracker.Server.WebApi.Controllers
             else
             {
                 dailyReport.ReportItems = reportItems;
+                dailyReport.State = (Persistence.Entities.ReportState) req.ReportState;
                 _context.DailyReports.Update(dailyReport);
             }
 
