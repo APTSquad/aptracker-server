@@ -21,7 +21,8 @@ namespace APTracker.Server.WebApi.Controllers
         {
             Editable,
             Fixed,
-            Empty
+            Empty,
+            NotRequired
         }
 
         private readonly AppDbContext _context;
@@ -62,17 +63,20 @@ namespace APTracker.Server.WebApi.Controllers
                     if (reportItemsDict.TryGetValue(day, out var report))
                     {
                         stateItem.State = (ReportState) report.State;
-                        days.Add(stateItem);
-
                     }
                     else
                     {
-                        stateItem.State = ReportState.Empty;
-                        if (day.DayOfWeek != DayOfWeek.Saturday && day.DayOfWeek != DayOfWeek.Sunday)
+                        
+                        if (day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday)
                         {
-                            days.Add(stateItem);
+                            stateItem.State = ReportState.NotRequired;
+                        }
+                        else
+                        {
+                            stateItem.State = ReportState.Empty;
                         }
                     }
+                    days.Add(stateItem);
                 }
             }
 
