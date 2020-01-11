@@ -60,11 +60,19 @@ namespace APTracker.Server.WebApi.Controllers
                     var stateItem = new ReportStateItem {Date = day};
 
                     if (reportItemsDict.TryGetValue(day, out var report))
+                    {
                         stateItem.State = (ReportState) report.State;
-                    else
-                        stateItem.State = ReportState.Empty;
+                        days.Add(stateItem);
 
-                    days.Add(stateItem);
+                    }
+                    else
+                    {
+                        stateItem.State = ReportState.Empty;
+                        if (day.DayOfWeek != DayOfWeek.Saturday && day.DayOfWeek != DayOfWeek.Sunday)
+                        {
+                            days.Add(stateItem);
+                        }
+                    }
                 }
             }
 
