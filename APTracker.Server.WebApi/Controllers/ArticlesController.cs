@@ -89,8 +89,11 @@ namespace APTracker.Server.WebApi.Controllers
             if (!found)
                 return NotFound("Project wasn't found");
 
+            var max = await _context.ConsumptionArticles.MaxAsync(x => x.Id);
+            var art = _mapper.Map<ConsumptionArticle>(request);
+            art.Id = max + 1;
 
-            var res = await _context.ConsumptionArticles.AddAsync(_mapper.Map<ConsumptionArticle>(request));
+            var res = await _context.ConsumptionArticles.AddAsync(art);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(CreateOne),
                 await _context.ConsumptionArticles.ProjectTo<ArticleDetailResponse>(_mapper.ConfigurationProvider)
