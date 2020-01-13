@@ -7,6 +7,8 @@ namespace APTracker.Server.WebApi.Commands.Articles.GetAll
     {
         public string Name { get; set; }
         public BagView? Bag { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsCommon { get; set; }
         public long Id { get; set; }
     }
 }

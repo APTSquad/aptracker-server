@@ -184,7 +184,8 @@ namespace APTracker.Server.WebApi.Controllers
 
             if (theLatestDayBefore != null)
             {
-                foreach (var elem in theLatestDayBefore.ReportItems.Where(x => !x.Article.IsCommon).Select(x => x.Article))
+                foreach (var elem in theLatestDayBefore.ReportItems
+                    .Where(x => !x.Article.IsCommon).Select(x => x.Article))
                 {
                     var client = clients.FirstOrDefault(x => x.Id == elem.Project.ClientId);
                     var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
@@ -192,6 +193,14 @@ namespace APTracker.Server.WebApi.Controllers
                     client.IsChecked = true;
                     project.IsChecked = true;
                     article.IsChecked = true;
+                }
+            }
+            
+            foreach (var reportClientItem in clients)
+            {
+                foreach (var reportProjectItem in reportClientItem.Projects)
+                {
+                    reportProjectItem.Articles = reportProjectItem.Articles.Where(x => x.IsActive).ToList();
                 }
             }
             
