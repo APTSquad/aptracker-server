@@ -100,7 +100,7 @@ namespace APTracker.Server.WebApi.Controllers
             if (foundArticle == null) return NotFound("Article not found");
 
             var existsProject = await _context.Projects.AnyAsync(c => c.Id == request.DestinationId);
-            if (!existsProject) return NotFound("Client not exists");
+            if (!existsProject) return NotFound("Project not exists");
 
             foundArticle.ProjectId = request.DestinationId;
             
