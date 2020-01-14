@@ -88,6 +88,9 @@
             <e p="ReportTemplateResponse.cs" t="Include" />
           </e>
           <e p="SetBagRequest.cs" t="Include" />
+          <e p="Transfer" t="Include">
+            <e p="TransferRequest.cs" t="Include" />
+          </e>
           <e p="User" t="Include">
             <e p="Modify" t="Include">
               <e p="UserModifyRequest.cs" t="Include" />
