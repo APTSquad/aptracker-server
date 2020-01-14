@@ -59,7 +59,7 @@ namespace APTracker.Server.WebApi.Controllers
         }
         
         [HttpPost("transfer")]
-        [ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> TransferProject([FromBody] TransferRequest request)
         {
             var foundProject = await _context.Projects.FirstOrDefaultAsync(c => c.Id == request.ItemId);

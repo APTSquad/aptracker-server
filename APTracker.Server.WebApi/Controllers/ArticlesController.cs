@@ -6,6 +6,7 @@ using APTracker.Server.WebApi.Commands.Articles.Create;
 using APTracker.Server.WebApi.Commands.Articles.Detail;
 using APTracker.Server.WebApi.Commands.Articles.GetAll;
 using APTracker.Server.WebApi.Commands.Articles.Modify;
+using APTracker.Server.WebApi.Commands.Transfer;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
@@ -89,6 +90,25 @@ namespace APTracker.Server.WebApi.Controllers
 
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleDetailResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id));
+        }
+        
+        [HttpPost("transfer")]
+        //[ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> TransferArticle([FromBody] TransferRequest request)
+        {
+            var foundArticle = await _context.ConsumptionArticles.FirstOrDefaultAsync(c => c.Id == request.ItemId);
+            if (foundArticle == null) return NotFound("Article not found");
+
+            var existsProject = await _context.Projects.AnyAsync(c => c.Id == request.DestinationId);
+            if (!existsProject) return NotFound("Client not exists");
+
+            foundArticle.ProjectId = request.DestinationId;
+            
+            _context.ConsumptionArticles.Update(foundArticle);
+            
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
         
         [HttpPost("createCommon")]
