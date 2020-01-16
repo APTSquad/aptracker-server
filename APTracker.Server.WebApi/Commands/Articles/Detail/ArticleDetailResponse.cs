@@ -7,6 +7,7 @@ namespace APTracker.Server.WebApi.Commands.Articles.Detail
     {
         public string Name { get; set; }
         public ProjectSimplified Project { get; set; }
+        public bool IsActive { get; set; }
         public long Id { get; set; }
     }
 

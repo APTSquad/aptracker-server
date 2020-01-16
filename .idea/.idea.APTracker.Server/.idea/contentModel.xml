@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Eugene Mi\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Eugene Mi\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_APTracker.Server.-1211153487.00" t="ExcludeRecursive" />
-    <e p="C:\Users\Eugene Mi\RiderProjects\aptracker-server" t="IncludeFlat">
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_APTracker.Server.1505793934.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="APTracker.Server.sln" t="IncludeFlat" />
       <e p="APTracker.Server.WebApi" t="IncludeRecursive">
         <e p="appsettings.Development.json" t="Include" />
@@ -87,6 +88,9 @@
             <e p="ReportTemplateResponse.cs" t="Include" />
           </e>
           <e p="SetBagRequest.cs" t="Include" />
+          <e p="Transfer" t="Include">
+            <e p="TransferRequest.cs" t="Include" />
+          </e>
           <e p="User" t="Include">
             <e p="Modify" t="Include">
               <e p="UserModifyRequest.cs" t="Include" />

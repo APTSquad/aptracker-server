@@ -1,6 +1,7 @@
 using APTracker.Server.WebApi.Commands.Articles.Create;
 using APTracker.Server.WebApi.Commands.Articles.Detail;
 using APTracker.Server.WebApi.Commands.Articles.GetAll;
+using APTracker.Server.WebApi.Commands.Articles.Modify;
 using APTracker.Server.WebApi.Commands.Bag.Create;
 using APTracker.Server.WebApi.Commands.Bag.GetAll;
 using APTracker.Server.WebApi.Commands.Bag.GetById;
@@ -32,6 +33,7 @@ namespace APTracker.Server.WebApi.Persistence
 
 
             CreateMap<ConsumptionArticle, ReportArticleItem>();
+            CreateMap<ArticleModifyRequest, ConsumptionArticle>();
             CreateMap<Project, ReportProjectItem>();
             CreateMap<Client, ReportClientItem>();
 

@@ -4,6 +4,7 @@ using APTracker.Server.WebApi.Commands;
 using APTracker.Server.WebApi.Commands.Project.Create;
 using APTracker.Server.WebApi.Commands.Project.GetAll;
 using APTracker.Server.WebApi.Commands.Project.Modify;
+using APTracker.Server.WebApi.Commands.Transfer;
 using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
@@ -55,6 +56,25 @@ namespace APTracker.Server.WebApi.Controllers
 
             return Ok(await _context.Projects.ProjectTo<ProjectCreateResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == ent.Entity.Id));
+        }
+        
+        [HttpPost("transfer")]
+        //[ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> TransferProject([FromBody] TransferRequest request)
+        {
+            var foundProject = await _context.Projects.FirstOrDefaultAsync(c => c.Id == request.ItemId);
+            if (foundProject == null) return NotFound("Project not found");
+
+            var existsClient = await _context.Clients.AnyAsync(c => c.Id == request.DestinationId);
+            if (!existsClient) return NotFound("Client not exists");
+
+            foundProject.ClientId = request.DestinationId;
+            
+            _context.Projects.Update(foundProject);
+            
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPut]
