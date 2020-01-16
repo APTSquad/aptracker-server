@@ -206,23 +206,44 @@ namespace APTracker.Server.WebApi.Controllers
             if (dailyReport == null)
                 return BadRequest("Report wasn't found");
 
+            var clientsAll = await _context.Clients
+                .ProjectTo<ReportClientItem>(_mapper.ConfigurationProvider)
+                .ToListAsync();
 
-            var itemsByClient = dailyReport.ReportItems.Where(x => !x.Article.IsCommon).GroupBy(x => x.Article.Project.Client).Distinct();
-            var clients = itemsByClient.Select(x => new
+            var itemsByClient = dailyReport.ReportItems
+                .Where(x => !x.Article.IsCommon)
+                .GroupBy(x => x.Article.Project.Client)
+                .Distinct();
+            
+            
+            foreach (var elem in dailyReport.ReportItems.Where(x => !x.Article.IsCommon).Select(x => x.Article))
             {
-                x.Key.Id,
-                x.Key.Name,
-                Projects = x.GroupBy(x => x.Article.Project).Select(x =>
-                    new {
-                        x.Key.Id,
-                        x.Key.Name,
-                        Articles = x.Select(x => new
-                        {
-                            x.Article.Name,
-                            x.Article.Id,
-                            x.HoursConsumption
-                        })
+                var client = clientsAll.FirstOrDefault(x => x.Id == elem.Project.ClientId);
+                var project = client.Projects.FirstOrDefault(x => x.Id == elem.Project.Id);
+                var article = project.Articles.FirstOrDefault(x => x.Id == elem.Id);
+                client.IsChecked = true;
+                project.IsChecked = true;
+                article.IsChecked = true;
+            }
+            
+            var clients = clientsAll.Select(x => new
+            {
+                x.Id,
+                x.Name,
+                x.IsChecked,
+                Projects = x.Projects.Select(x => new
+                {
+                    x.Id,
+                    x.Name,
+                    x.IsChecked,
+                    Articles = x.Articles.Select(x => new
+                    {
+                        x.Id,
+                        x.Name,
+                        x.IsChecked,
+                        HoursConsumption = GetHoursConsumptionIsChecked(x, dailyReport)
                     })
+                })
             });
 
             var common = new List<ArticleInfo>();
@@ -252,6 +273,12 @@ namespace APTracker.Server.WebApi.Controllers
             public long Id { get; set; }
             public string Name { get; set; }
             public double? HoursConsumption { get; set; }
+        }
+        
+        double GetHoursConsumptionIsChecked(ReportArticleItem consumptionArticle, DailyReport report)
+        {
+            var art = report.ReportItems.FirstOrDefault(a => a.Article.Id == consumptionArticle.Id);
+            return art?.HoursConsumption ?? 0;
         }
         double GetHoursConsumption(ConsumptionArticle consumptionArticle, DailyReport report)
         {
