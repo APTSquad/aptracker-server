@@ -10,8 +10,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 namespace Microsoft.Identity.Web.Resource
 {
     /// <summary>
-    /// Diagnostics used in the Open Id Connect middleware
-    /// (used in Web Apps)
+    ///     Diagnostics used in the Open Id Connect middleware
+    ///     (used in Web Apps)
     /// </summary>
     public class OpenIdConnectMiddlewareDiagnostics
     {
@@ -73,8 +73,8 @@ namespace Microsoft.Identity.Web.Resource
 
 
         /// <summary>
-        /// Subscribes to all the OpenIdConnect events, to help debugging, while
-        /// preserving the previous handlers (which are called)
+        ///     Subscribes to all the OpenIdConnect events, to help debugging, while
+        ///     preserving the previous handlers (which are called)
         /// </summary>
         /// <param name="events">Events to subscribe to</param>
         public static void Subscribe(OpenIdConnectEvents events)
@@ -125,11 +125,8 @@ namespace Microsoft.Identity.Web.Resource
         {
             foreach (var property in message.GetType().GetProperties())
             {
-                object value = property.GetValue(message);
-                if (value != null)
-                {
-                    Debug.WriteLine($"   - {property.Name}={value}");
-                }
+                var value = property.GetValue(message);
+                if (value != null) Debug.WriteLine($"   - {property.Name}={value}");
             }
         }
 
@@ -154,7 +151,6 @@ namespace Microsoft.Identity.Web.Resource
             Debug.WriteLine($"5. Begin {nameof(OnTokenResponseReceivedAsync)}");
             await s_onTokenResponseReceived(context).ConfigureAwait(false);
             Debug.WriteLine($"5. End - {nameof(OnTokenResponseReceivedAsync)}");
-
         }
 
         private static async Task OnTokenValidatedAsync(TokenValidatedContext context)

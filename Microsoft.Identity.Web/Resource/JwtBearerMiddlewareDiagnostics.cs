@@ -9,41 +9,39 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace Microsoft.Identity.Web.Resource
 {
     /// <summary>
-    /// Diagnostics for the JwtBearer middleware (used in Web APIs)
+    ///     Diagnostics for the JwtBearer middleware (used in Web APIs)
     /// </summary>
     public class JwtBearerMiddlewareDiagnostics
     {
         /// <summary>
-        /// Invoked if exceptions are thrown during request processing. The exceptions will be re-thrown after this event unless suppressed.
+        ///     Invoked if exceptions are thrown during request processing. The exceptions will be re-thrown after this event
+        ///     unless suppressed.
         /// </summary>
         private static Func<AuthenticationFailedContext, Task> s_onAuthenticationFailed;
 
         /// <summary>
-        /// Invoked when a protocol message is first received.
+        ///     Invoked when a protocol message is first received.
         /// </summary>
         private static Func<MessageReceivedContext, Task> s_onMessageReceived;
 
         /// <summary>
-        /// Invoked after the security token has passed validation and a ClaimsIdentity has been generated.
+        ///     Invoked after the security token has passed validation and a ClaimsIdentity has been generated.
         /// </summary>
         private static Func<TokenValidatedContext, Task> s_onTokenValidated;
 
         /// <summary>
-        /// Invoked before a challenge is sent back to the caller.
+        ///     Invoked before a challenge is sent back to the caller.
         /// </summary>
-        static Func<JwtBearerChallengeContext, Task> s_onChallenge;
+        private static Func<JwtBearerChallengeContext, Task> s_onChallenge;
 
         /// <summary>
-        /// Subscribes to all the JwtBearer events, to help debugging, while
-        /// preserving the previous handlers (which are called)
+        ///     Subscribes to all the JwtBearer events, to help debugging, while
+        ///     preserving the previous handlers (which are called)
         /// </summary>
         /// <param name="events">Events to subscribe to</param>
         public static JwtBearerEvents Subscribe(JwtBearerEvents events)
         {
-            if (events == null)
-            {
-                events = new JwtBearerEvents();
-            }
+            if (events == null) events = new JwtBearerEvents();
 
             s_onAuthenticationFailed = events.OnAuthenticationFailed;
             events.OnAuthenticationFailed = OnAuthenticationFailedAsync;

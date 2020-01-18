@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web.Resource;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Microsoft.Identity.Web
 {
     /// <summary>
-    /// Extensions for IServiceCollection for startup initialization.
+    ///     Extensions for IServiceCollection for startup initialization.
     /// </summary>
     public static class WebAppServiceCollectionExtensions
     {
         /// <summary>
-        /// Add authentication with Microsoft identity platform.
-        /// This method expects the configuration file will have a section named "AzureAd" with the necessary settings to initialize authentication options.
+        ///     Add authentication with Microsoft identity platform.
+        ///     This method expects the configuration file will have a section named "AzureAd" with the necessary settings to
+        ///     initialize authentication options.
         /// </summary>
         /// <param name="services">Service collection to which to add this authentication scheme</param>
         /// <param name="configuration">The Configuration object</param>
         /// <param name="subscribeToOpenIdConnectMiddlewareDiagnosticsEvents">
-        /// Set to true if you want to debug, or just understand the OpenIdConnect events.
+        ///     Set to true if you want to debug, or just understand the OpenIdConnect events.
         /// </param>
         /// <returns></returns>
         public static IServiceCollection AddMicrosoftIdentityPlatformAuthentication(
@@ -36,7 +36,6 @@ namespace Microsoft.Identity.Web
             string configSectionName = "AzureAd",
             bool subscribeToOpenIdConnectMiddlewareDiagnosticsEvents = false)
         {
-
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => configuration.Bind(configSectionName, options));
             services.Configure<AzureADOptions>(options => configuration.Bind(configSectionName, options));
@@ -58,7 +57,8 @@ namespace Microsoft.Identity.Web
                 // If you want to restrict the users that can sign-in to several organizations
                 // Set the tenant value in the appsettings.json file to 'organizations', and add the
                 // issuers you want to accept to options.TokenValidationParameters.ValidIssuers collection
-                options.TokenValidationParameters.IssuerValidator = AadIssuerValidator.GetIssuerValidator(options.Authority).Validate;
+                options.TokenValidationParameters.IssuerValidator =
+                    AadIssuerValidator.GetIssuerValidator(options.Authority).Validate;
 
                 // Set the nameClaimType to be preferred_username.
                 // This change is needed because certain token claims from Azure AD V1 endpoint
@@ -66,7 +66,7 @@ namespace Microsoft.Identity.Web
                 // For more details see [ID Tokens](https://docs.microsoft.com/azure/active-directory/develop/id-tokens)
                 // and [Access Tokens](https://docs.microsoft.com/azure/active-directory/develop/access-tokens)
                 options.TokenValidationParameters.NameClaimType = "preferred_username";
-                
+
                 // Avoids having users being presented the select account dialog when they are already signed-in
                 // for instance when going through incremental consent
                 options.Events.OnRedirectToIdentityProvider = context =>
@@ -86,19 +86,15 @@ namespace Microsoft.Identity.Web
 
                     // Additional claims
                     if (context.Properties.Items.ContainsKey(OidcConstants.AdditionalClaims))
-                    {
                         context.ProtocolMessage.SetParameter(
                             OidcConstants.AdditionalClaims,
                             context.Properties.Items[OidcConstants.AdditionalClaims]);
-                    }
 
                     return Task.FromResult(0);
                 };
 
                 if (subscribeToOpenIdConnectMiddlewareDiagnosticsEvents)
-                {
                     OpenIdConnectMiddlewareDiagnostics.Subscribe(options.Events);
-                }
             });
             return services;
         }
@@ -106,16 +102,18 @@ namespace Microsoft.Identity.Web
         // TODO: pass an option with a section name to bind the options ? or a delegate?
 
         /// <summary>
-        /// Add MSAL support to the Web App or Web API
+        ///     Add MSAL support to the Web App or Web API
         /// </summary>
         /// <param name="services">Service collection to which to add authentication</param>
         /// <param name="initialScopes">Initial scopes to request at sign-in</param>
         /// <returns></returns>
-        public static IServiceCollection AddMsal(this IServiceCollection services, IConfiguration configuration, IEnumerable<string> initialScopes, string configSectionName = "AzureAd")
+        public static IServiceCollection AddMsal(this IServiceCollection services, IConfiguration configuration,
+            IEnumerable<string> initialScopes, string configSectionName = "AzureAd")
         {
             // Ensure that configuration options for MSAL.NET, HttpContext accessor and the Token acquisition service
             // (encapsulating MSAL.NET) are available through dependency injection
-            services.Configure<ConfidentialClientApplicationOptions>(options => configuration.Bind(configSectionName, options));
+            services.Configure<ConfidentialClientApplicationOptions>(options =>
+                configuration.Bind(configSectionName, options));
             services.AddHttpContextAccessor();
             services.AddTokenAcquisition();
 
@@ -128,15 +126,9 @@ namespace Microsoft.Identity.Web
                 // (it's required by MSAL.NET and automatically provided when users sign-in with work or school accounts)
                 options.Scope.Add(OidcConstants.ScopeOfflineAccess);
                 if (initialScopes != null)
-                {
-                    foreach (string scope in initialScopes)
-                    {
+                    foreach (var scope in initialScopes)
                         if (!options.Scope.Contains(scope))
-                        {
                             options.Scope.Add(scope);
-                        }
-                    }
-                }
 
                 // Handling the auth redemption by MSAL.NET so that a token is available in the token cache
                 // where it will be usable from Controllers later (through the TokenAcquisition service)
@@ -144,7 +136,8 @@ namespace Microsoft.Identity.Web
                 options.Events.OnAuthorizationCodeReceived = async context =>
                 {
                     var tokenAcquisition = context.HttpContext.RequestServices.GetRequiredService<ITokenAcquisition>();
-                    await tokenAcquisition.AddAccountToCacheFromAuthorizationCodeAsync(context, options.Scope).ConfigureAwait(false);
+                    await tokenAcquisition.AddAccountToCacheFromAuthorizationCodeAsync(context, options.Scope)
+                        .ConfigureAwait(false);
                     await handler(context).ConfigureAwait(false);
                 };
 

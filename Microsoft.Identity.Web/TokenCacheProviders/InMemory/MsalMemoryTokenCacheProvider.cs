@@ -10,32 +10,32 @@ using Microsoft.Extensions.Options;
 namespace Microsoft.Identity.Web.TokenCacheProviders.InMemory
 {
     /// <summary>
-    /// An implementation of token cache for both Confidential and Public clients backed by MemoryCache.
+    ///     An implementation of token cache for both Confidential and Public clients backed by MemoryCache.
     /// </summary>
-    /// <seealso cref="https://aka.ms/msal-net-token-cache-serialization"/>
+    /// <seealso cref="https://aka.ms/msal-net-token-cache-serialization" />
     public class MsalMemoryTokenCacheProvider : MsalAbstractTokenCacheProvider
     {
         /// <summary>
-        /// .NET Core Memory cache
-        /// </summary>
-        private readonly IMemoryCache _memoryCache;
-
-        /// <summary>
-        /// Msal memory token cache options
+        ///     Msal memory token cache options
         /// </summary>
         private readonly MsalMemoryTokenCacheOptions _cacheOptions;
 
         /// <summary>
-        /// Constructor
+        ///     .NET Core Memory cache
+        /// </summary>
+        private readonly IMemoryCache _memoryCache;
+
+        /// <summary>
+        ///     Constructor
         /// </summary>
         /// <param name="azureAdOptions"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="memoryCache"></param>
         /// <param name="cacheOptions"></param>
         public MsalMemoryTokenCacheProvider(IOptions<AzureADOptions> azureAdOptions,
-                                            IHttpContextAccessor httpContextAccessor,
-                                            IMemoryCache memoryCache,
-                                            IOptions<MsalMemoryTokenCacheOptions> cacheOptions) :
+            IHttpContextAccessor httpContextAccessor,
+            IMemoryCache memoryCache,
+            IOptions<MsalMemoryTokenCacheOptions> cacheOptions) :
             base(azureAdOptions, httpContextAccessor)
         {
             _memoryCache = memoryCache;
@@ -50,7 +50,7 @@ namespace Microsoft.Identity.Web.TokenCacheProviders.InMemory
 
         protected override Task<byte[]> ReadCacheBytesAsync(string cacheKey)
         {
-            byte[] tokenCacheBytes = (byte[])_memoryCache.Get(cacheKey);
+            var tokenCacheBytes = (byte[]) _memoryCache.Get(cacheKey);
             return Task.FromResult(tokenCacheBytes);
         }
 

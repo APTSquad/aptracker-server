@@ -37,7 +37,7 @@ namespace APTracker.Server.WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(ClientCreateResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([FromBody] ClientCreateRequest request)
+        public async Task<IActionResult> CreateOne([FromBody] ClientCreateRequest request)
         {
             var bag = await _context.Bags.FirstOrDefaultAsync(b => b.Id == request.BagId);
             if (bag == null) return BadRequest();

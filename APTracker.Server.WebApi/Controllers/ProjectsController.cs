@@ -57,7 +57,7 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.Projects.ProjectTo<ProjectCreateResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == ent.Entity.Id));
         }
-        
+
         [HttpPost("transfer")]
         //[ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> TransferProject([FromBody] TransferRequest request)
@@ -69,9 +69,9 @@ namespace APTracker.Server.WebApi.Controllers
             if (!existsClient) return NotFound("Client not exists");
 
             foundProject.ClientId = request.DestinationId;
-            
+
             _context.Projects.Update(foundProject);
-            
+
             await _context.SaveChangesAsync();
 
             return Ok();

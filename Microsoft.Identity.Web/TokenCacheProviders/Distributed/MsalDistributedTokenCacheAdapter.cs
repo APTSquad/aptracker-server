@@ -5,38 +5,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Identity.Web.TokenCacheProviders.Distributed
 {
     /// <summary>
-    /// An implementation of token cache for both Confidential and Public clients backed by MemoryCache.
+    ///     An implementation of token cache for both Confidential and Public clients backed by MemoryCache.
     /// </summary>
-    /// <seealso cref="https://aka.ms/msal-net-token-cache-serialization"/>
+    /// <seealso cref="https://aka.ms/msal-net-token-cache-serialization" />
     public class MsalDistributedTokenCacheAdapter : MsalAbstractTokenCacheProvider
     {
         /// <summary>
-        /// .NET Core Memory cache
-        /// </summary>
-        private readonly IDistributedCache _distributedCache;
-
-        /// <summary>
-        /// Msal memory token cache options
+        ///     Msal memory token cache options
         /// </summary>
         private readonly DistributedCacheEntryOptions _cacheOptions;
 
         /// <summary>
-        /// Constructor
+        ///     .NET Core Memory cache
+        /// </summary>
+        private readonly IDistributedCache _distributedCache;
+
+        /// <summary>
+        ///     Constructor
         /// </summary>
         /// <param name="azureAdOptions"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="memoryCache"></param>
         /// <param name="cacheOptions"></param>
         public MsalDistributedTokenCacheAdapter(IOptions<AzureADOptions> azureAdOptions,
-                                            IHttpContextAccessor httpContextAccessor,
-                                            IDistributedCache memoryCache,
-                                            IOptions<DistributedCacheEntryOptions> cacheOptions) :
+            IHttpContextAccessor httpContextAccessor,
+            IDistributedCache memoryCache,
+            IOptions<DistributedCacheEntryOptions> cacheOptions) :
             base(azureAdOptions, httpContextAccessor)
         {
             _distributedCache = memoryCache;
@@ -55,7 +54,7 @@ namespace Microsoft.Identity.Web.TokenCacheProviders.Distributed
 
         protected override async Task WriteCacheBytesAsync(string cacheKey, byte[] bytes)
         {
-            await _distributedCache.SetAsync(cacheKey, bytes, _cacheOptions).ConfigureAwait(false) ;
+            await _distributedCache.SetAsync(cacheKey, bytes, _cacheOptions).ConfigureAwait(false);
         }
     }
 }

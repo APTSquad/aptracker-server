@@ -13,7 +13,7 @@ namespace APTracker.Server.WebApi.Controllers
             return user.FindFirst("preferred_username")?.Value;
         }
 
-        public static  string GetUserName(ClaimsPrincipal user)
+        public static string GetUserName(ClaimsPrincipal user)
         {
             return user.FindFirst("name")?.Value;
         }

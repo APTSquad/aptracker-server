@@ -37,12 +37,13 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync());
         }
-        
+
         [HttpGet("common")]
         [ProducesResponseType(typeof(ICollection<ArticleGetAllResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllCommon()
         {
-            return Ok(await _context.ConsumptionArticles.Where(x => x.IsCommon).ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
+            return Ok(await _context.ConsumptionArticles.Where(x => x.IsCommon)
+                .ProjectTo<ArticleGetAllResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync());
         }
 
@@ -91,7 +92,7 @@ namespace APTracker.Server.WebApi.Controllers
             return Ok(await _context.ConsumptionArticles.ProjectTo<ArticleDetailResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id));
         }
-        
+
         [HttpPost("transfer")]
         //[ProducesResponseType(typeof(ProjectCreateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> TransferArticle([FromBody] TransferRequest request)
@@ -103,14 +104,14 @@ namespace APTracker.Server.WebApi.Controllers
             if (!existsProject) return NotFound("Project not exists");
 
             foundArticle.ProjectId = request.DestinationId;
-            
+
             _context.ConsumptionArticles.Update(foundArticle);
-            
+
             await _context.SaveChangesAsync();
 
             return Ok();
         }
-        
+
         [HttpPost("createCommon")]
         [ProducesResponseType(typeof(ArticleDetailResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateCommon([FromBody] ArticleModifyRequest request)

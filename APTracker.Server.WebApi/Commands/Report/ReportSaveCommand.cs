@@ -14,7 +14,7 @@ namespace APTracker.Server.WebApi.Commands.Report
     {
         public DateTime Date { get; set; }
         public long UserId { get; set; }
-        
+
         public ReportController.ReportState ReportState { get; set; }
         public ICollection<ReportConsumptionItem> Articles { get; set; }
     }

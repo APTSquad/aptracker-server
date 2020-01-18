@@ -32,7 +32,7 @@ namespace APTracker.Server.WebApi.Persistence
                 new User {Name = "Admin", Email = "admin@live.com", Rate = 1.0, Role = Role.Admin}, // 1
                 new User {Name = "Sarah", Email = "sarah@live.com", Rate = 1.0, Role = Role.Manager}, // 2
                 new User {Name = "John", Email = "john@live.com", Rate = 0.75, Role = Role.Manager}, // 3
-                new User { Name = "Kate", Email = "kate@live.com", Rate = 0.7, Role = Role.Developer} // 4
+                new User {Name = "Kate", Email = "kate@live.com", Rate = 0.7, Role = Role.Developer} // 4
             };
 
             var bags = new List<Bag>
@@ -60,7 +60,6 @@ namespace APTracker.Server.WebApi.Persistence
                                 new ConsumptionArticle
                                 {
                                     Id = 10, Bag = bags[0], IsCommon = false, Name = "Разработка (ICL-20)"
-                                    
                                 },
                                 new ConsumptionArticle
                                 {
@@ -111,7 +110,6 @@ namespace APTracker.Server.WebApi.Persistence
                                 new ConsumptionArticle
                                 {
                                     Id = 32, Bag = null, IsCommon = false, Name = "Статья не в портфеле (MG)"
-                                    
                                 },
                                 new ConsumptionArticle
                                 {
@@ -132,12 +130,10 @@ namespace APTracker.Server.WebApi.Persistence
                                 new ConsumptionArticle
                                 {
                                     Id = 40, Bag = bags[0], IsCommon = false, Name = "Разработка (BCL-19)"
-                                    
                                 },
                                 new ConsumptionArticle
                                 {
                                     Id = 41, Bag = bags[0], IsCommon = false, Name = "Анализ (BCL-19)"
-                                    
                                 },
                                 new ConsumptionArticle
                                 {
@@ -146,7 +142,7 @@ namespace APTracker.Server.WebApi.Persistence
                             }
                         }
                     }
-                },
+                }
             };
 
             var reports = new List<DailyReport>

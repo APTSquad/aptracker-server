@@ -7,6 +7,7 @@ using APTracker.Server.WebApi.Persistence;
 using APTracker.Server.WebApi.Persistence.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,10 +45,11 @@ namespace APTracker.Server.WebApi.Controllers
         [ProducesResponseType(typeof(ICollection<ReportStateItem>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDaysData(long UserId)
         {
+            var user = await UserUtils.GetUser(_context, User);
             var days = new List<ReportStateItem>();
             var today = DateTime.Now.Date;
             var reportItem = await _context.DailyReports
-                .Where(x => x.UserId == UserId)
+                .Where(x => x.UserId == user.Id)
                 .OrderBy(x => x.Date)
                 .FirstOrDefaultAsync();
 
@@ -66,16 +68,12 @@ namespace APTracker.Server.WebApi.Controllers
                     }
                     else
                     {
-                        
                         if (day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday)
-                        {
                             stateItem.State = ReportState.NotRequired;
-                        }
                         else
-                        {
                             stateItem.State = ReportState.Empty;
-                        }
                     }
+
                     days.Add(stateItem);
                 }
             }
@@ -126,40 +124,34 @@ namespace APTracker.Server.WebApi.Controllers
 
             return Ok(data);
         }
-
-        class DayInfoRepsponse
-        {
-            public ReportState ReportState { get; set; }
-            public int HoursRequired { get; set; }
-            public object Data { get; set; }
-        }
         
         [HttpPost("getDayInfo")]
         //[ProducesResponseType(typeof(ReportTemplateResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDayInfo([FromBody] ReportTemplateRequest req)
         {
-            var response = new DayInfoRepsponse { };
+            var response = new DayInfoRepsponse();
             var date = req.Date.Date;
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == req.UserId);
+            var user = await UserUtils.GetUser(_context, User);
+            /*var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == req.UserId);
             if (user == null)
-                return BadRequest("User wasn't found");
+                return BadRequest("User wasn't found");*/
 
             var report = await _context.DailyReports
-                .FirstOrDefaultAsync(x => x.Date == date && x.UserId == req.UserId);
+                .FirstOrDefaultAsync(x => x.Date == date && x.UserId == user.Id);
 
-            
+
             if (report != null)
             {
                 response.ReportState = (ReportState) report.State;
-                response.Data = await GetReportImpl(new ReportGetCommand{Date = date, UserId = req.UserId});
+                response.Data = await GetReportImpl(new ReportGetCommand {Date = date, UserId = user.Id});
             }
             else
             {
                 response.ReportState = ReportState.Empty;
-                response.Data = await GetTemplateImpl(new ReportTemplateRequest {Date = date, UserId = req.UserId});
+                response.Data = await GetTemplateImpl(new ReportTemplateRequest {Date = date, UserId = user.Id});
             }
 
-            response.HoursRequired = (int)(user.Rate * 8);
+            response.HoursRequired = (int) (user.Rate * 8);
 
             return Ok(response);
         }
@@ -183,7 +175,6 @@ namespace APTracker.Server.WebApi.Controllers
                 .ToListAsync();
 
             if (theLatestDayBefore != null)
-            {
                 foreach (var elem in theLatestDayBefore.ReportItems
                     .Where(x => !x.Article.IsCommon).Select(x => x.Article))
                 {
@@ -194,16 +185,11 @@ namespace APTracker.Server.WebApi.Controllers
                     project.IsChecked = true;
                     article.IsChecked = true;
                 }
-            }
-            
+
             foreach (var reportClientItem in clients)
-            {
-                foreach (var reportProjectItem in reportClientItem.Projects)
-                {
-                    reportProjectItem.Articles = reportProjectItem.Articles.Where(x => x.IsActive).ToList();
-                }
-            }
-            
+            foreach (var reportProjectItem in reportClientItem.Projects)
+                reportProjectItem.Articles = reportProjectItem.Articles.Where(x => x.IsActive).ToList();
+
             data.Clients = clients;
 
             return data;
@@ -237,8 +223,8 @@ namespace APTracker.Server.WebApi.Controllers
                 .Where(x => !x.Article.IsCommon)
                 .GroupBy(x => x.Article.Project.Client)
                 .Distinct();
-            
-            
+
+
             foreach (var elem in dailyReport.ReportItems.Where(x => !x.Article.IsCommon).Select(x => x.Article))
             {
                 var client = clientsAll.FirstOrDefault(x => x.Id == elem.Project.ClientId);
@@ -248,7 +234,7 @@ namespace APTracker.Server.WebApi.Controllers
                 project.IsChecked = true;
                 article.IsChecked = true;
             }
-            
+
             var clients = clientsAll.Select(x => new
             {
                 x.Id,
@@ -272,7 +258,6 @@ namespace APTracker.Server.WebApi.Controllers
             var common = new List<ArticleInfo>();
             foreach (var x in _context.ConsumptionArticles.Where(x => x.IsCommon))
             {
-
                 var artInfo = new ArticleInfo
                 {
                     Id = x.Id,
@@ -280,34 +265,26 @@ namespace APTracker.Server.WebApi.Controllers
                     HoursConsumption = null
                 };
                 var art = dailyReport.ReportItems.FirstOrDefault(a => a.Article.Id == x.Id);
-                if (art != null)
-                {
-                    artInfo.HoursConsumption = art.HoursConsumption;
-                }
-                
+                if (art != null) artInfo.HoursConsumption = art.HoursConsumption;
+
                 common.Add(artInfo);
             }
-            
+
             return new {common, clients};
         }
 
-        class ArticleInfo
-        {
-            public long Id { get; set; }
-            public string Name { get; set; }
-            public double? HoursConsumption { get; set; }
-        }
-        
-        double GetHoursConsumptionIsChecked(ReportArticleItem consumptionArticle, DailyReport report)
+        private double GetHoursConsumptionIsChecked(ReportArticleItem consumptionArticle, DailyReport report)
         {
             var art = report.ReportItems.FirstOrDefault(a => a.Article.Id == consumptionArticle.Id);
             return art?.HoursConsumption ?? 0;
         }
-        double GetHoursConsumption(ConsumptionArticle consumptionArticle, DailyReport report)
+
+        private double GetHoursConsumption(ConsumptionArticle consumptionArticle, DailyReport report)
         {
             var art = report.ReportItems.FirstOrDefault(a => a.Article.Id == consumptionArticle.Id);
             return art?.HoursConsumption ?? 0;
         }
+
         [HttpPost("getReport")]
         public async Task<IActionResult> GetReport([FromBody] ReportGetCommand req)
         {
@@ -331,29 +308,30 @@ namespace APTracker.Server.WebApi.Controllers
                 return BadRequest("Report wasn't found");
 
 
-            var itemsByClient = dailyReport.ReportItems.Where(x => !x.Article.IsCommon).GroupBy(x => x.Article.Project.Client).Distinct();
+            var itemsByClient = dailyReport.ReportItems.Where(x => !x.Article.IsCommon)
+                .GroupBy(x => x.Article.Project.Client).Distinct();
             var clients = itemsByClient.Select(x => new
             {
                 x.Key.Id,
                 x.Key.Name,
                 Projects = x.GroupBy(x => x.Article.Project).Select(x =>
-                new {
-                    x.Key.Id,
+                    new
+                    {
+                        x.Key.Id,
                         x.Key.Name,
-                            Articles = x.Select(x => new
-                            {
-                                x.Article.Name,
-                                x.Article.Id,
-                                x.HoursConsumption
-                            })
-                })
+                        Articles = x.Select(x => new
+                        {
+                            x.Article.Name,
+                            x.Article.Id,
+                            x.HoursConsumption
+                        })
+                    })
             });
 
 
             var common = new List<ArticleInfo>();
             foreach (var x in _context.ConsumptionArticles.Where(x => x.IsCommon))
             {
-
                 var artInfo = new ArticleInfo
                 {
                     Id = x.Id,
@@ -361,14 +339,11 @@ namespace APTracker.Server.WebApi.Controllers
                     HoursConsumption = null
                 };
                 var art = dailyReport.ReportItems.FirstOrDefault(a => a.Article.Id == x.Id);
-                if (art != null)
-                {
-                    artInfo.HoursConsumption = art.HoursConsumption;
-                }
-                
+                if (art != null) artInfo.HoursConsumption = art.HoursConsumption;
+
                 common.Add(artInfo);
             }
-            
+
             return Ok(new {common, clients});
         }
 
@@ -377,14 +352,16 @@ namespace APTracker.Server.WebApi.Controllers
         {
             if (req.Date.Date > DateTime.Today)
                 return BadRequest("Cannot report the future");
+            
+            var user = await UserUtils.GetUser(_context, User);
 
-            var userId = req.UserId;
+            var userId = user.Id;
             var date = req.Date.Date;
 
-            var user = await _context.Users.AnyAsync(x => x.Id == userId);
+            /*var user = await _context.Users.AnyAsync(x => x.Id == userId);
 
             if (!user)
-                return BadRequest("User wasn't found");
+                return BadRequest("User wasn't found");*/
 
 
             var reportItems =
@@ -395,7 +372,11 @@ namespace APTracker.Server.WebApi.Controllers
 
             if (dailyReport == null)
             {
-                var newReport = new DailyReport {UserId = userId, Date = date, ReportItems = reportItems, State = (Persistence.Entities.ReportState) req.ReportState};
+                var newReport = new DailyReport
+                {
+                    UserId = userId, Date = date, ReportItems = reportItems,
+                    State = (Persistence.Entities.ReportState) req.ReportState
+                };
                 await _context.DailyReports.AddAsync(newReport);
             }
             else if (dailyReport.State == Persistence.Entities.ReportState.Fixed)
@@ -422,6 +403,20 @@ namespace APTracker.Server.WebApi.Controllers
             data.ForEach(x => x.IsChecked = true);
 
             return data;
+        }
+
+        private class DayInfoRepsponse
+        {
+            public ReportState ReportState { get; set; }
+            public int HoursRequired { get; set; }
+            public object Data { get; set; }
+        }
+
+        private class ArticleInfo
+        {
+            public long Id { get; set; }
+            public string Name { get; set; }
+            public double? HoursConsumption { get; set; }
         }
 
         public class ReportStateItem

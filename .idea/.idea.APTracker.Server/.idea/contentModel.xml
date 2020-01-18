@@ -109,7 +109,6 @@
           <e p="ReportCOntroller.cs" t="Include" />
           <e p="TodosController.cs" t="Include" />
           <e p="UsersController.cs" t="Include" />
-          <e p="UserUtils.cs" t="Include" />
         </e>
         <e p="Migrations" t="Include">
           <e p="20191129185015_Init.cs" t="Include" />
@@ -167,6 +166,9 @@
           <e p="launchSettings.json" t="Include" />
         </e>
         <e p="Startup.cs" t="Include" />
+        <e p="Utils" t="Include">
+          <e p="UserUtils.cs" t="Include" />
+        </e>
       </e>
       <e p="LICENSE" t="Include" />
       <e p="Microsoft.Identity.Web" t="IncludeRecursive">
